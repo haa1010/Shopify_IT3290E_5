@@ -9,34 +9,70 @@ const pool = new Pool({
 
 // SELECT all products and order by id.
 const getProducts = (request, response) => {
-    pool.query('SELECT * FROM Product ORDER BY IdProduct ASC', (error, results) => {
-        if (error) {
-            throw error
+    pool.query('SELECT * FROM Product ORDER BY IdProduct ASC', (err, results) => {
+        if (err) {
+            response.status(500).send({ err })
         }
-        response.status(200).json(results.rows)
+        var data = results.rows
+        // Promise.all(data.map(email => sendEmail(email)));
+        // for (i of data) {
+        //     i.url = []
+        //     console.log("i before = ",i,"\n")
+        //     getImg(i.idproduct).then(url => {
+        //         i.url = url
+        //         console.log("i after = ",i)
+        //     }).catch((err) => {
+        //         console.log(err)
+        //     })
+        // }
+        response.status(200).json(data)
     })
 }
 
 //  Get a single Product by id, use WHERE to check
 const getProductById = (request, response) => {
     const id = request.params.id
+    pool.query('SELECT Product.*, DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id],
+        (error, results) => {
+            if (error) {
+                response.status(500).send({ error })
+            }
+            var data = results.rows
 
-    pool.query('SELECT Product.*, DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).json(results.rows)
+            getImg(id).then(url => {
+                data[0].url = url
+                response.status(200).send(data)
+            }).catch((err) => {
+                console.log(err)
+            })
+        })
+}
+
+function getImg(id) {
+    return new Promise(function (resolve, reject) {
+        pool.query('Select urlImage from urlImage where IdProduct = $1', [id], (err, res) => {
+            var url = []
+            for (i of res.rows) {
+                url.push(i.urlimage)
+            }
+            if (url != null) {
+                resolve(url)
+            } else {
+                reject("no data");
+            }
+        })
     })
 }
 
-//  Get list Product by branch, use WHERE to check
-const getProductByBranch = (request, response) => {
-    const branch = request.params.branch
+//  Get list Product by brand, use WHERE to check
+const getProductByBrand = (request, response) => {
+    const Brand = request.params.brandName
 
-    pool.query('SELECT Product.*,DetailProduct.* FROM DetailProduct natural join Product WHERE branch = $1', [branch], (error, results) => {
+    pool.query('SELECT * FROM Product WHERE Brand = $1', [Brand], (error, results) => {
         if (error) {
-            throw error
+            response.status(500).send({ error })
         }
+        console.log(results)
         response.status(200).json(results.rows)
     })
 }
@@ -44,9 +80,9 @@ const getProductByBranch = (request, response) => {
 // Create an order -- body: productID, quantity, color
 const createNewOrder = (req, res) => {
     const order = req.body
-    pool.query('SELECT Product.*,DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id], (error, results) => {
-        if (error) {
-            throw error
+    pool.query('SELECT Product.*,DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id], (err, results) => {
+        if (err) {
+            response.status(500).send({ err })
         }
         response.status(200).json(results.rows)
     })
@@ -55,9 +91,9 @@ const createNewOrder = (req, res) => {
 // add items to cash -- body: orderID, productID, quantity, color
 const addItem = (req, res) => {
     const order = req.body
-    pool.query('insert to order value($1,$2,$3,$4)', [order.id], [order.productID], [order.quantity], [order.color], (error, results) => {
-        if (error) {
-            throw error
+    pool.query('insert to order value($1,$2,$3,$4)', [order.id], [order.productID], [order.quantity], [order.color], (err, results) => {
+        if (err) {
+            response.status(500).send({ err })
         }
         response.status(200)
     })
@@ -95,8 +131,7 @@ const updateProduct = (request, response) => {
     const { name, email } = request.body
 
     pool.query(
-        'UPDATE products SET name = $1, email = $2 WHERE id = $3',
-        [name, email, id],
+        'UPDATE products SET name = $1, email = $2 WHERE id = $3', [name, email, id],
         (error, results) => {
             if (error) {
                 throw error
@@ -122,7 +157,7 @@ const deleteProduct = (request, response) => {
 module.exports = {
     getProducts,
     getProductById,
-    getProductByBranch,
+    getProductByBrand,
     createNewOrder,
     addItem,
     deleteItem,

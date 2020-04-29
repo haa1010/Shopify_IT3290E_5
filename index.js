@@ -6,7 +6,7 @@ const port = 3000
 const db = require('./queries')
 app.get('/products', db.getProducts)
 app.get('/products/:id', db.getProductById)
-app.get('/products/:branch', db.getProductByBranch)
+app.get('/products/brand/:brandName', db.getProductByBrand)
 app.post('/newOrder', db.createNewOrder)
 app.post('/deleteItem',db.createNewOrder)
 
