@@ -7,25 +7,25 @@ const pool = new Pool({
     port: 5432,
 })
 
-// SELECT all products and order by id.
+// SELECT all products.
 const getProducts = (request, response) => {
+
+    var data = {
+        detail: [],
+        url: []
+    }
     pool.query('SELECT * FROM Product ORDER BY IdProduct ASC', (err, results) => {
         if (err) {
             response.status(500).send({ err })
         }
-        var data = results.rows
-        // Promise.all(data.map(email => sendEmail(email)));
-        // for (i of data) {
-        //     i.url = []
-        //     console.log("i before = ",i,"\n")
-        //     getImg(i.idproduct).then(url => {
-        //         i.url = url
-        //         console.log("i after = ",i)
-        //     }).catch((err) => {
-        //         console.log(err)
-        //     })
-        // }
-        response.status(200).json(data)
+        data.detail = results.rows
+        pool.query('SELECT * FROM urlImage', (e, r) => {
+            if (e) {
+                response.status(500).send({ e })
+            }
+            data.url = r.rows
+            response.status(200).json(data)
+        })
     })
 }
 
@@ -72,31 +72,48 @@ const getProductByBrand = (request, response) => {
         if (error) {
             response.status(500).send({ error })
         }
-        console.log(results)
         response.status(200).json(results.rows)
     })
 }
 
 // Create an order -- body: productID, quantity, color
 const createNewOrder = (req, res) => {
-    const order = req.body
-    pool.query('SELECT Product.*,DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id], (err, results) => {
-        if (err) {
-            response.status(500).send({ err })
+    const { id, receiver, phone, address } = req.body
+
+    pool.query('INSERT INTO Orders (IdOrder, Receiver, Phone, Address, Day) values ($1,$2,$3,$4,now())', [id, receiver, phone, address], (error, results) => {
+        if (error) {
+            throw error
         }
-        response.status(200).json(results.rows)
+        res.status(201).send("Order created!")
     })
 }
 
 // add items to cash -- body: orderID, productID, quantity, color
 const addItem = (req, res) => {
-    const order = req.body
-    pool.query('insert to order value($1,$2,$3,$4)', [order.id], [order.productID], [order.quantity], [order.color], (err, results) => {
-        if (err) {
-            response.status(500).send({ err })
-        }
-        response.status(200)
-    })
+    const items = req.body
+
+    // var lists = [{ IdOrder: '1', IdProduct: '1', Quantity: 1 }, { IdOrder: '1', IdProduct: '2', Quantity: 2 }, { IdOrder: '1', IdProduct: '3', Quantity: 3 }];
+    var sql = "SELECT format ('INSERT INTO DetailOrder VALUES(%L)',items)"
+    pool.query(sql)
+        .then(data => {
+            response.status(200).send("Insert successfully!")
+        })
+        .catch(error => {
+            response.status(500).send({ error })
+        });
+    // pool.query('INSERT INTO DetailOrder VALUES ($1,$2,$3,$4)', Inserts('${IdOrder}, ${IdProduct},${Quantity}', lists))
+    //     .then(data => {
+    //         response.status(200).send("Insert successfully!")
+    //     })
+    //     .catch(error => {
+    //         response.status(500).send({ err })
+    //     });
+    // pool.query('insert to DetailOrder value($1,$2,$3,$4)', [order.id], [order.productID], [order.quantity], [order.color], (err, results) => {
+    //     if (err) {
+    //         response.status(500).send({ err })
+    //     }
+    //     response.status(200)
+    // })
 }
 
 // remove items from cash -- body: orderID, productID, quantity, color
@@ -109,9 +126,6 @@ const deleteItem = (req, res) => {
         response.status(200)
     })
 }
-
-
-
 
 // create a new Product, extract from req, use INSERT
 const createProduct = (request, response) => {
