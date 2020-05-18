@@ -8,60 +8,60 @@ const pool = new Pool({
 })
 
 // SELECT all products.
-const getProducts = (request, response) => {
+const getProducts = async function (request, response) {
 
     var data = {
+        listBrand: [],
         detail: [],
         url: []
     }
-    pool.query('SELECT * FROM Product ORDER BY IdProduct ASC', (err, results) => {
-        if (err) {
-            response.status(500).send({ err })
+    try {
+        var t = await pool.query('SELECT * FROM Product ORDER BY IdProduct ASC')
+        data.detail = t.rows
+        t = await pool.query('SELECT * FROM urlImage')
+        data.url = t.rows
+        t = await pool.query('select Brand from Product group by Brand order by Brand asc ')
+        for (i of t.rows) {
+            data.listBrand.push(i.brand)
         }
-        data.detail = results.rows
-        pool.query('SELECT * FROM urlImage', (e, r) => {
-            if (e) {
-                response.status(500).send({ e })
-            }
-            data.url = r.rows
-            response.status(200).json(data)
-        })
-    })
+        response.status(200).json(data)
+    }
+    catch (e) {
+        response.status(400).send({ e })
+    }
 }
+
 
 //  Get a single Product by id, use WHERE to check
-const getProductById = (request, response) => {
+const getProductById = async function (request, response) {
     const id = request.params.id
-    pool.query('SELECT Product.*, DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id],
-        (error, results) => {
-            if (error) {
-                response.status(500).send({ error })
-            }
-            var data = results.rows[0]
-            data.qty = []
-            data.specifications = {}
-
-            getImg(id).then(url => {
-                data.url = url
-                getSpec(id).then(res => {
-                    data.specifications = res.rows[0]
-                    getQty(id).then(result => {
-                        data.qty = result.rows
-                        response.status(200).send(data)
-                    })
-                })
-            }).catch((err) => {
-                console.log(err)
-            })
-        })
+    var data = {
+        detail: [],
+        qty: [],
+        specifications: {},
+        url: []
+    }
+    try {
+        var t = await pool.query('SELECT Product.*, DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id])
+        data.detail = t.rows[0]
+        t = await pool.query('select * from specifications where IdProduct = $1', [id])
+        data.specifications = t.rows[0]
+        t = await pool.query('Select urlImage from urlImage where IdProduct = $1', [id])
+        for (i of t.rows) {
+            data.url.push(i.urlimage)
+        }
+        t = await pool.query('select * from color where IdProduct = $1', [id])
+        data.qty = t.rows
+        response.status(200).send(data)
+    }
+    catch (e) {
+        response.status(400)
+    }
 }
 
-function getSpec(id) {
-    return new Promise(function (resolve, reject) {
-        pool.query('select * from specifications where IdProduct = $1', [id], (err, res) => {
-            resolve(res)
-        })
-    })
+async function getSpec(id) {
+
+    await pool.query('select * from specifications where IdProduct = $1', [id])
 }
 
 function getQty(id) {
