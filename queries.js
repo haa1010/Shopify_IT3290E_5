@@ -16,10 +16,13 @@ const getProducts = async function (request, response) {
         url: []
     }
     try {
+        // get list of product
         var t = await pool.query('SELECT * FROM Product ORDER BY IdProduct ASC')
         data.detail = t.rows
+        // get url img
         t = await pool.query('SELECT * FROM urlImage')
         data.url = t.rows
+        // get list of brand
         t = await pool.query('select Brand from Product group by Brand order by Brand asc ')
         for (i of t.rows) {
             data.listBrand.push(i.brand)
@@ -42,14 +45,18 @@ const getProductById = async function (request, response) {
         url: []
     }
     try {
+        // get detail of product
         var t = await pool.query('SELECT Product.*, DetailProduct.* FROM DetailProduct natural join Product WHERE IdProduct = $1', [id])
         data.detail = t.rows[0]
+        // get specification
         t = await pool.query('select * from specifications where IdProduct = $1', [id])
         data.specifications = t.rows[0]
+        // get url img
         t = await pool.query('Select urlImage from urlImage where IdProduct = $1', [id])
         for (i of t.rows) {
             data.url.push(i.urlimage)
         }
+        // get quantity of color
         t = await pool.query('select * from color where IdProduct = $1', [id])
         data.qty = t.rows
         response.status(200).send(data)
@@ -57,35 +64,6 @@ const getProductById = async function (request, response) {
     catch (e) {
         response.status(400)
     }
-}
-
-async function getSpec(id) {
-
-    await pool.query('select * from specifications where IdProduct = $1', [id])
-}
-
-function getQty(id) {
-    return new Promise(function (resolve, reject) {
-        pool.query('select * from color where IdProduct = $1', [id], (err, result) => {
-            resolve(result)
-        })
-    })
-}
-
-function getImg(id) {
-    return new Promise(function (resolve, reject) {
-        pool.query('Select urlImage from urlImage where IdProduct = $1', [id], (err, res) => {
-            var url = []
-            for (i of res.rows) {
-                url.push(i.urlimage)
-            }
-            if (url != null) {
-                resolve(url)
-            } else {
-                reject("no data");
-            }
-        })
-    })
 }
 
 //  Get list Product by brand, use WHERE to check
@@ -110,75 +88,24 @@ const getProductByBrand = (request, response) => {
 
 // Create an order -- body: 
 var IdOrder = 0;
-const createNewOrder = (req, res) => {
+const createNewOrder = async function (req, res) {
     const { receiver, phone, address, cost, items } = req.body
-
-    pool.query('INSERT INTO Orders (Receiver, Phone, Address,TotalCost, Day) VALUES ($1, $2, $3, $4, CURRENT_DATE)', [receiver, phone, address, cost], (error, result) => {
-        if (error) {
-            throw error
+    try {
+        // insert new order
+        var t = await pool.query('INSERT INTO Orders (Receiver, Phone, Address,TotalCost, Day) VALUES ($1, $2, $3, $4, CURRENT_DATE)', [receiver, phone, address, cost])
+        // get id of order
+        t = await pool.query('Select IdOrder from Orders where Receiver = $1 and TotalCost = $2', [receiver, cost])
+        IdOrder = t.rows[0].idorder
+        // add items to order
+        for (i of items) {
+             await pool.query('Insert into DetailOrder values ($1, $2, $3, $4)', [IdOrder, i.IdProduct, i.color, i.quantity])
         }
-        getIdOrder(receiver, cost).then(id => {
-            IdOrder = id
-            for (i of items) {
-                addItem(i, IdOrder)
-            }
-        }).catch((err) => {
-            console.log(err)
-        })
         res.status(201).send("Order created!")
-    })
+    }
+    catch (e) {
+        console.log(e)
+    }
 }
-
-// get IdOrder
-function getIdOrder(name, cost) {
-    return new Promise(function (resolve, reject) {
-        pool.query('Select IdOrder from Orders where Receiver = $1 and TotalCost = $2', [name, cost], (err, res) => {
-            resolve(res.rows[0].idorder)
-        })
-    })
-}
-
-function addItem(item, id) {
-    return new Promise(function (resolve, reject) {
-        pool.query('Insert into DetailOrder value ($1, $2, $3)', [id, item.IdProduct, item.quantity], (err, res) => {
-            if (error) {
-                throw error
-            }
-            console.log("Add ", item.quantity, " ", item.IdProduct)
-        })
-    })
-}
-// add items to cash -- body: orderID, productID, quantity, color
-// const addItem = (req, res) => {
-//     const items = req.body
-
-//     // var lists = [{ IdOrder: '1', IdProduct: '1', Quantity: 1 }, { IdOrder: '1', IdProduct: '2', Quantity: 2 }, { IdOrder: '1', IdProduct: '3', Quantity: 3 }];
-//     // var sql = "SELECT format ('INSERT INTO DetailOrder VALUES(%L)',items)"
-
-
-//     pool.query('SELECT format (`INSERT INTO DetailOrder VALUES(%L)`,items')
-//         .then(data => {
-//             response.status(200).send("Insert successfully!")
-//         })
-//         .catch(error => {
-//             response.status(500).send({ error })
-//         });
-
-
-//     // pool.query('INSERT INTO DetailOrder VALUES ($1,$2,$3,$4)', Inserts('${IdOrder}, ${IdProduct},${Quantity}', lists))
-//     //     .then(data => {
-//     //         response.status(200).send("Insert successfully!")
-//     //     })
-//     //     .catch(error => {
-//     //         response.status(500).send({ err })
-//     //     });
-//     // pool.query('insert to DetailOrder value($1,$2,$3,$4)', [order.id], [order.productID], [order.quantity], [order.color], (err, results) => {
-//     //     if (err) {
-//     //         response.status(500).send({ err })
-//     //     }
-//     //     response.status(200)
-//     // })
-// }
 
 // remove items from cash -- body: orderID, productID, quantity, color
 const deleteItem = (req, res) => {
@@ -237,7 +164,6 @@ module.exports = {
     getProductById,
     getProductByBrand,
     createNewOrder,
-    addItem,
     deleteItem,
     createProduct,
     updateProduct,
