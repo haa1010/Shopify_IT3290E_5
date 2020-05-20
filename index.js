@@ -18,13 +18,12 @@ app.use(bodyParser.json());
 //     next();
 //   }
 // });
-
-app.get('/', (request, response) => {
-    response.json({ info: 'Node.js, Express, and Postgres API' })
-  })
+app.get('/', (req, res) => {
+  res.sendFile(__dirname + '/login.html')
+})
 
 app.listen(port, () => {
-console.log(`App running on port ${port}.`)
+  console.log(`App running on port ${port}.`)
 })
 
 const db = require('./queries')

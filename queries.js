@@ -21,7 +21,7 @@ const getProducts = async function (request, response) {
         data.detail = t.rows
         // get url img
         t = await pool.query('SELECT * FROM urlImage')
-        data.url = t.rows
+        getUniqueUrl(data.url, t.rows)
         // get list of brand
         t = await pool.query('select Brand from Product group by Brand order by Brand asc ')
         for (i of t.rows) {
@@ -69,23 +69,27 @@ const getProductById = async function (request, response) {
 //  Get list Product by brand, use WHERE to check
 const getProductByBrand = (request, response) => {
     const Brand = request.params.brandName
-    var id = [], res = []
+    var res = []
 
     pool.query('SELECT Product.* , urlImage.urlImage from Product natural join urlImage WHERE Brand = $1', [Brand], (error, results) => {
         if (error) {
             response.status(500).send({ error })
         }
-        for (i of results.rows) {
-            var t = parseInt(i.idproduct)
-            if (!id[t]) {
-                res.push(i)
-                id[t] = 1
-            }
-        }
+        getUniqueUrl(res, results.rows)
         response.status(200).json(res)
     })
 }
 
+function getUniqueUrl(res, listUrl) {
+    var id = []
+    for (i of listUrl) {
+        var t = parseInt(i.idproduct)
+        if (!id[t]) {
+            res.push(i)
+            id[t] = 1
+        }
+    }
+}
 // Create an order -- body: 
 var IdOrder = 0;
 const createNewOrder = async function (req, res) {
@@ -98,7 +102,7 @@ const createNewOrder = async function (req, res) {
         IdOrder = t.rows[0].idorder
         // add items to order
         for (i of items) {
-             await pool.query('Insert into DetailOrder values ($1, $2, $3, $4)', [IdOrder, i.IdProduct, i.color, i.quantity])
+            await pool.query('Insert into DetailOrder values ($1, $2, $3, $4)', [IdOrder, i.IdProduct, i.color, i.quantity])
         }
         res.status(201).send("Order created!")
     }
