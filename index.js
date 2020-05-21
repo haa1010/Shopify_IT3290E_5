@@ -32,6 +32,7 @@ app.get('/products', db.getProducts)
 app.get('/products/:id', db.getProductById)
 app.get('/products/brand/:brandName', db.getProductByBrand)
 app.post('/newOrder', db.createNewOrder)
+app.get('/admin', db.getStatistic)
 // app.post('/deleteItem',db.deleteItem)
 
 // app.post('/products', db.createProduct)

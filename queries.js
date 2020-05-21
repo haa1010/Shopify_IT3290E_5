@@ -111,6 +111,38 @@ const createNewOrder = async function (req, res) {
     }
 }
 
+const getStatistic = async function (request, response) {
+    var data = {
+        nOrder: null,
+        nProduct: null,
+        nMoney: null,
+        allOrder: null,
+        allProduct: null,
+        allMoney: null,
+    }
+
+    try {
+        // over time
+        var t = await pool.query('select sum(TotalCost) as allMoney from Orders')
+        data.allMoney = t.rows[0].allmoney
+        var t = await pool.query('select sum(Quantity) as allProduct from DetailOrder')
+        data.allProduct = t.rows[0].allproduct
+        var t = await pool.query('select count(IdOrder) as allOrder from Orders')
+        data.allOrder = t.rows[0].allorder
+        // today
+        t = await pool.query('select count(IdOrder) as nOrder from Orders where Day = current_date')
+        data.nOrder = t.rows[0].norder
+        t = await pool.query('select sum(Quantity) as nProduct from DetailOrder where IdOrder in ( select idorder from orders where Day = current_date)')
+        data.nProduct = t.rows[0].nproduct
+        t = await pool.query('select sum(TotalCost) as nMoney from Orders where Day = current_date')
+        data.nMoney = t.rows[0].nmoney
+        response.status(200).send(data)
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+
 // remove items from cash -- body: orderID, productID, quantity, color
 const deleteItem = (req, res) => {
     const order = req.body
@@ -168,6 +200,7 @@ module.exports = {
     getProductById,
     getProductByBrand,
     createNewOrder,
+    getStatistic,
     deleteItem,
     createProduct,
     updateProduct,
