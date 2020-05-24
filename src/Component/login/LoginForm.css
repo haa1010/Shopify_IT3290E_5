@@ -1,0 +1,10 @@
+.err{
+    border:1px solid red!important;
+}
+@import url("/vendor/bootstrap/css/bootstrap.min.css");
+@import url("/fonts/font-awesome-4.7.0/css/font-awesome.min.css");
+/* @import url("../../vendor/animate/animate.css");
+@import url("../../vendor/css-hamburgers/hamburgers.min.css");
+@import url("../../vendor/select2/select2.min.css"); */
+@import url("/css/main.css");
+@import url("/css/util.css");
