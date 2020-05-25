@@ -111,31 +111,39 @@ const createNewOrder = async function (req, res) {
     }
 }
 
+// get statistic for admin 
 const getStatistic = async function (request, response) {
     var data = {
-        nOrder: null,
-        nProduct: null,
-        nMoney: null,
-        allOrder: null,
-        allProduct: null,
-        allMoney: null,
+        today: {
+            nOrder: null,
+            nProduct: null,
+            nMoney: null
+        },
+        overTime: {
+            allOrder: null,
+            sold: null,
+            inStock: null,
+            inCome: null
+        }
     }
 
     try {
         // over time
-        var t = await pool.query('select sum(TotalCost) as allMoney from Orders')
-        data.allMoney = t.rows[0].allmoney
-        var t = await pool.query('select sum(Quantity) as allProduct from DetailOrder')
-        data.allProduct = t.rows[0].allproduct
-        var t = await pool.query('select count(IdOrder) as allOrder from Orders')
-        data.allOrder = t.rows[0].allorder
+        var t = await pool.query('select * from Orders group by IdOrder, Day order by Day')
+        data.overTime.allOrder = t.rows
+        t = await pool.query('select extract(month from Day) as Month, Sum(TotalCost) as Total from Orders group by extract(month from Day) ')
+        data.overTime.inCome = t.rows
+        t = await pool.query('select NameProduct, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct')
+        data.overTime.inStock = t.rows
+        t = await pool.query('select NameProduct, sum(Quantity) as "Sold" from DetailOrder natural join Product group by  NameProduct')
+        data.overTime.sold = t.rows
         // today
         t = await pool.query('select count(IdOrder) as nOrder from Orders where Day = current_date')
-        data.nOrder = t.rows[0].norder
+        data.today.nOrder = t.rows[0].norder
         t = await pool.query('select sum(Quantity) as nProduct from DetailOrder where IdOrder in ( select idorder from orders where Day = current_date)')
-        data.nProduct = t.rows[0].nproduct
+        data.today.nProduct = t.rows[0].nproduct
         t = await pool.query('select sum(TotalCost) as nMoney from Orders where Day = current_date')
-        data.nMoney = t.rows[0].nmoney
+        data.today.nMoney = t.rows[0].nmoney
         response.status(200).send(data)
     }
     catch (e) {
