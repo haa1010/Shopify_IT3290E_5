@@ -1,0 +1,54 @@
+// post : localhost:3000/admin/create
+{
+   "product":{
+      "id":"5",
+      "name":"Điện thoại iPhone 7 Plus 32GB",
+      "price":"9900",
+      "brand":"Apple"
+   },
+   "detail":{
+      "id":"5",
+      "date":"2016/05/06",
+      "description":"Mặc dù giữ nguyên vẻ bề ngoài so với dòng điện thoại iPhone đời trước, bù lại iPhone 7 Plus 32GB lại được trang bị nhiều nâng cấp đáng giá như camera kép đầu tiên cũng như cấu hình mạnh mẽ."
+   },
+   "color":[
+      {
+         "id":"5",
+         "color":"Black",
+         "qty":5
+      },
+      {
+         "id":"5",
+         "color":"Gold",
+         "qty":5
+      },
+      {
+         "id":"5",
+         "color":"Pink",
+         "qty":10
+      }
+   ],
+   "spec":{
+      "id":"5",
+      "memory":"32 GB",
+      "front":"7 MB",
+      "behind":"12 MB",
+      "cpu":"Apple A10 Fusion 4 nhân",
+      "os":"iOS 12",
+      "pin":"2900 mAh"
+   },
+   "urlImage":[
+      {
+         "id":"5",
+         "url":"https://zshop.vn/images/detailed/65/0007094_apple-iphone-7-plus-32gb-gold.jpeg?t=1481293589"
+      },
+      {
+         "id":"5",
+         "url":"https://hoanghamobile.com/Uploads/Originals/2016/09/08/201609081107459092_black.jpg;width=820;height=550;watermark=logo;crop=auto;format=jpg"
+      },
+      {
+         "id":"5",
+         "url":"https://bachlongmobile.com/media/catalog/product/cache/2/image/040ec09b1e35df139433887a97daa66f/7/p/7prose_2.jpg"
+      }
+   ]
+}

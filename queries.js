@@ -151,6 +151,43 @@ const getStatistic = async function (request, response) {
     }
 }
 
+// Update data for a existing Product, use UPDATE
+const updateProduct = (request, response) => {
+    const { name, color, quantity } = request.body
+
+    pool.query(
+        'update Color set quantity = quantity + $1 from Product where NameProduct = $2 and Color.IdProduct = Product.IdProduct and Color.color = $3', [quantity, name, color],
+        (error, results) => {
+            if (error) {
+                response.status(400).send(error)
+            }
+            response.status(200).send(`Product ${name} ${color} added by ${quantity}`)
+        }
+    )
+}
+
+// create a new Product, extract from req, use INSERT
+const createProduct = async function (request, response) {
+    const { product, detail, color, spec, urlImage } = request.body
+    try {
+        var t = await pool.query('insert into Product VALUES ($1, $2, $3, $4)', [product.id, product.price, product.name, product.brand])
+        t = await pool.query('insert into detailProduct VALUES ($1, $2, $3)', [detail.id, detail.date, detail.description])
+        for (i of color) {
+            t = await pool.query('insert into Color VALUES ($1, $2, $3)', [i.id, i.color, i.qty])
+        }
+        t = await pool.query('insert into specifications VALUES ($1, $2, $3, $4, $5, $6, $7)', [spec.id, spec.memory, spec.front, spec.behind, spec.cpu, spec.os, spec.pin])
+        for (i of urlImage) {
+            t = await pool.query('insert into urlImage VALUES ($1, $2)', [i.id, i.url])
+        }
+
+        response.status(201).send(`Product ${product.name} inserted with ID: ${product.id}`)
+    }
+    catch (e) {
+        response.status(400).send(e)
+    }
+
+}
+
 // remove items from cash -- body: orderID, productID, quantity, color
 const deleteItem = (req, res) => {
     const order = req.body
@@ -162,33 +199,6 @@ const deleteItem = (req, res) => {
     })
 }
 
-// create a new Product, extract from req, use INSERT
-const createProduct = (request, response) => {
-    const { name, email } = request.body
-
-    pool.query('INSERT INTO products (name, email) VALUES ($1, $2)', [name, email], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(201).send(`Product added with ID: ${result.insertId}`)
-    })
-}
-
-// Update data for a existing Product, use UPDATE
-const updateProduct = (request, response) => {
-    const id = parseInt(request.params.id)
-    const { name, email } = request.body
-
-    pool.query(
-        'UPDATE products SET name = $1, email = $2 WHERE id = $3', [name, email, id],
-        (error, results) => {
-            if (error) {
-                throw error
-            }
-            response.status(200).send(`Product modified with ID: ${id}`)
-        }
-    )
-}
 
 // DELETE Product by id
 const deleteProduct = (request, response) => {
