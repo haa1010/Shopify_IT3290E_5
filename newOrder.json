@@ -1,0 +1,19 @@
+// post : localhost:3000/newOrder
+{
+    "receiver": "test1",
+    "phone": "123",
+    "address": "HN",
+    "cost": 10000,
+    "items": [
+        {
+            "IdProduct": 7,
+            "color": "White",
+            "quantity": 1
+        },
+        {
+            "IdProduct": 7,
+            "color": "Black",
+            "quantity": 1
+        }
+    ]
+}
