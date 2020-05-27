@@ -1,42 +1,65 @@
 import React from 'react';
 
 class banner extends  React.Component{
+	constructor(props) {
+        super(props)
+        
+       
+        this.state = {
+            brand:[],
+          
+           
+		}
+	}
+	componentDidMount() {
 
+        fetch('http://localhost:8080/products')
+        .then(res => res.json())
+        .then(
+          (result) => {
+            this.setState({
+              isLoaded: true,
+              brand: result.listBrand
+             
+         
+            });
+  
+          },
+          // error handler
+          (error) => {
+            this.setState({
+              isLoaded: true,
+              error
+            });
+            console.log("error");
+          }
+        )
+       
+
+    }
     render(){
         return(
+<div className='container'>
+<nav class="navbar navbar-expand-lg">
+  
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
 
-	<div id="myCarousel" className="carousel slide">
-		<div className="carousel-inner">
-		  <div className="item active">
-		 
-			<a href="register.html"><img style={{width:'100%'}} src="themes/images/carousel/1.png" width=" 100%" alt="special offers"/></a>
-			
-		 
-		  </div>
-		
-		  <div className="item">
-		 
-			<a href="register.html"><img src="themes/images/carousel/3.png" width=" 100%"alt=""/></a>
-			
-			
-		
-		  </div>
-		   <div className="item">
-		
-			<a href="register.html"><img src="themes/images/carousel/4.jpg" width=" 100%" alt=""/></a>
-		
-		   
-	
-		  </div>
-		   
-		   <div className="item">
-		  
-			<a href="register.html"><img src="themes/images/carousel/6.jpg"width=" 100%" alt=""/></a>
-	
-		  </div>
-		</div>
-		<a className="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-		<a className="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+
+    <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'18px'}}>
+      <li className="nav-item mr-5" style={{width:'70px'}}> <a href="/">Home</a></li>
+			 {this.state.brand.map((index, key) => (
+				<li className="nav-item  justify-content-around mr-5"  key={key}><a href={"/brand/"+index}>{index}</a></li>
+			))
+
+			} 
+    </ul>
+  </div>
+</nav>
+
+
 	  </div> 
 
         )

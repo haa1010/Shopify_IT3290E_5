@@ -2,6 +2,10 @@
   text-align: center;
 }
 
+button,input:active {
+  outline: none !important;
+  border: none !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -1639,7 +1643,7 @@ textarea.input {
 .product-details .product-links li {
   display: inline-block;
   text-transform: uppercase;
-  font-size: 12px;
+  font-size: 15px;
 }
 
 .product-details .product-links li+li {

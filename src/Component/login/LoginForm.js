@@ -26,7 +26,7 @@ class LoginForm extends Component {
         console.log(this.state.username);
         console.log(this.state.password);
        
-       if(this.state.username==='admin'&&this.state.password==='admin') {this.props.history.push('/dasboad'); console.log(this.state.user)
+       if(this.state.username==='admin'&&this.state.password==='admin') {window.location.href = '/dasboad'; console.log(this.state.username)
     }
             else {
                 this.setState({ error: "username hoặc mật khẩu không chính xác" })

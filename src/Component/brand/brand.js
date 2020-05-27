@@ -66,7 +66,7 @@ class Brand extends React.Component {
 						<ul className="breadcrumb-tree">
 							<li><a href="/">Home</a></li>
 							
-							<li class="active">{match.params.brand}</li>
+							<li className="active">{match.params.brand}</li>
 						</ul>
 					</div>
 				</div>

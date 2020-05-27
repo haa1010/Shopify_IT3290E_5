@@ -14,7 +14,7 @@ class Footer extends React.Component{
 								<div className="footer">
 									<h3 className="footer-title">About Us</h3>
 									<p></p>
-									<ul className="footer-links">
+									<ul className="footer-links" style={{fontSize:'16px'}}>
 										<li><span ><i className="fa fa-map-marker"></i>số 1 Đại Cồ Việt</span></li>
 										<li><span ><i className="fa fa-phone"></i>+021-95-51-84</span></li>
 										<li><span ><i className="fa fa-envelope-o"></i>shopify@email.com</span></li>
@@ -25,7 +25,7 @@ class Footer extends React.Component{
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
 									<h3 className="footer-title">Members</h3>
-									<ul className="footer-links">
+									<ul className="footer-links" style={{fontSize:'16px'}}> 
 										<li>1.Trần Thị Hằng</li>
 										<li>2.Dương Thị Huê</li>
 										<li>3.Quyền Quang Huy</li>
@@ -40,7 +40,7 @@ class Footer extends React.Component{
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
 									<h3 className="footer-title">Information</h3>
-									<ul className="footer-links">
+									<ul className="footer-links" style={{fontSize:'16px'}}>
 										<li>About Us</li>
 										<li>Contact Us</li>
 										<li>Privacy Policy</li>
@@ -53,7 +53,7 @@ class Footer extends React.Component{
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
 									<h3 className="footer-title">Service</h3>
-									<ul className="footer-links">
+									<ul className="footer-links" style={{fontSize:'16px'}}>
 										<li>My Account</li>
 										<li>View Cart</li>
 										<li>Wishlist</li>

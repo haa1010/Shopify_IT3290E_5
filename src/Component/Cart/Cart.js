@@ -60,7 +60,7 @@ this.checkdiachi=this.checkdiachi.bind(this);
 	}
 	checkOrder = async e => {
 		e.preventDefault()
-		
+		console.log(this.state.Cart)
 		if (this.state.trueDiachi === 1 && this.state.trueName === 1 && this.state.phoneState ===1) {
 			
 			var order = {
@@ -69,34 +69,36 @@ this.checkdiachi=this.checkdiachi.bind(this);
 				phone: this.state.phone,
 				address: this.state.diachi,
 				cost: this.state.total,
-				items: this.state.Cart
+				items:  cookies.get('T')
 
 			}
 			// console.log(order)
 
 			axios.post('http://localhost:8080/newOrder',  qs.stringify(order),)
 			  .then(function (response) {
-				console.log(response);
+				  console.log(order)
+				alert("Đặt hàng thành công. Nhân viên Shopify sẽ liên lạc sớm cho quý khách để xác nhận đơn hàng.")
+				setTimeout(  window.location.href = '/',2000)
 			  })
 			  .catch(function (error) {
 				console.log(error);
 			  });
-			
+			cookies.remove('T');
 			
 			
 
 		}
 		else {
-			console.log(this.state.trueDiachi);
-			console.log(this.state.trueName)
-			console.log(this.state.phonenumber)
+			this.setState({
+				errForm:"Vui lòng nhập từng dữ liệu"
+			})
 		}
 
 
 	}
 	checkphone() {
 		var phone = this.refs.phonenumber.value;
-		console.log(phone)
+	
 		if (phone.length === 0) {
 			this.setState({
 				style: { boder: '1px solid red' },
@@ -126,6 +128,7 @@ this.checkdiachi=this.checkdiachi.bind(this);
 					phone:phone
 				})
 
+
 			}
 	}
 	componentDidMount() {
@@ -139,11 +142,11 @@ this.checkdiachi=this.checkdiachi.bind(this);
 
 				total += parseInt(json_str[i].price) * parseInt(json_str[i].quantity);
 			}
-		} else if (json_str === undefined) { this.setState({ StateCart: 'chưa có sản phầm trong giỏ hàng' }) }
+		} else if (json_str === undefined||json_str.length===0) { this.setState({ StateCart: 'chưa có sản phầm trong giỏ hàng' }) }
 
 
 		this.setState({
-			Cart: cookies.get('T') ,
+			Cart: cookies.get('T')!==undefined?cookies.get('T'):[] ,
 			total: total * 1000
 		})
 console.log(this.state.Cart)
@@ -176,7 +179,7 @@ console.log(this.state.Cart)
 					</div>
 
 				</div>
-				{this.state.Cart !==[] &&
+				{this.state.Cart.length !==0 &&
 					<div className="section">
 
 						<div className="container">
@@ -228,7 +231,7 @@ console.log(this.state.Cart)
 												
 												<div className=" justify-content-between" ><strong>Giá </strong></div>
 												</div>
-												<div className="order-products">
+											<div className="order-products">
 													{this.state.Cart.map((index, key) => 
 
 														 (
@@ -248,7 +251,7 @@ console.log(this.state.Cart)
 												</div>
 												<div className="order-col">
 													<div><strong>Thành tiền</strong></div>
-													<div><strong className="order-total">{formatter.format(this.state.total*1000)}</strong></div>
+													<div><strong className="order-total">{formatter.format(this.state.total)}</strong></div>
 												</div>
 											</div>
 
@@ -265,8 +268,8 @@ console.log(this.state.Cart)
 						</div>
 					</div>
 				}
-				<h3>{this.state.StateCart}</h3>
-				<Footer />
+			{this.state.Cart.length===0&&	<h3  style={{marginLeft:'20%'}}>Chưa có sản phẩm nào trong giỏ hàng</h3>
+			}<Footer />
 			</div>
 		)
 	}

@@ -14,6 +14,10 @@ import './css/font-awesome.min.css'
 import search from'./Component/Search/search'
 import { withCookies} from 'react-cookie';
 import Cookies from 'universal-cookie';
+
+
+
+
 const cookies=new Cookies();
 
 
@@ -34,10 +38,12 @@ class App extends React.Component {
 
           </Route>
           <Route path='/admin' component={login}/>
-          <Route path='/dasboad' component={Admin}/>
+          <Route exact path='/dasboad' component={Admin}/>
           <Route path='/brand/:brand'  component={brand}></Route>
           <Route path='/cart' exact component={cart} ></Route>
           <Route path='/search/:search' component={search}/>
+          
+         
           </Switch>
 
       </Router>

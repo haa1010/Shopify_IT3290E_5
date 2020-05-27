@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Dropdown } from 'react-bootstrap'
 import  'react-bootstrap';
+import Banner from '../Banner/banner'
 
-import '../../css/style.css'
 
-import {createHashHistory} from 'history'
 
 import Cookies from 'universal-cookie';
 const cookies = new Cookies() ;
@@ -31,8 +30,8 @@ class Header extends React.Component {
     }
     search(event) {
         event.preventDefault();
-     
-if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined){
+     console.log(this.refs.txt.value)
+if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.txt.value!==''){
     window.location.href = '/search/'+this.refs.txt.value;
 }
     }
@@ -217,28 +216,7 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined){
             </div>
 
                 </header >
-            <nav id="navigation">
-
-                <div className="container">
-
-                    <div id="responsive-nav">
-
-                        <ul className="main-nav nav navbar-nav d-inline mr-auto " style={{fontSize:'18px',display:'inline !important'}}>
-                            <li className="nav-item" style={{width:'70px'}}> <a href="/">Home</a></li>
-                             {this.state.brand.map((index, key) => (
-                                <li className="nav-item" style={{width:'70px'}} key={key}><a href={"/brand/"+index}>{index}</a></li>
-                            ))
-
-                            } 
-
-
-                        </ul>
-
-                    </div>
-
-                </div>
-
-            </nav>
+            <Banner/>
 
             </div >
         )

@@ -78,10 +78,10 @@ class Product extends React.Component {
     handleOrder = async e => {
         e.preventDefault();
         var json_str = cookies.get('T');
-
-        console.log(json_str === 'undefined');
+console.log(json_str)
+      
         if (this.state.color !== null && this.state.Soluong !== null) {
-            if (json_str === 'undefined' || json_str === undefined) {
+            if (json_str === 'undefined' || json_str === undefined||json_str.length===0) {
                 json_str = [];
                 var order = {
                     IdProduct: this.state.product.idproduct,
