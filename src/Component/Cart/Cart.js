@@ -60,28 +60,37 @@ this.checkdiachi=this.checkdiachi.bind(this);
 	}
 	checkOrder = async e => {
 		e.preventDefault()
-		console.log(this.state.Cart)
+	
 		if (this.state.trueDiachi === 1 && this.state.trueName === 1 && this.state.phoneState ===1) {
-			
+			console.log('xxx')
 			var order = {
-				date:new Date().toJSON().slice(0,10).replace(/-/g,'/'),
+				
 				receiver: this.state.ten,
 				phone: this.state.phone,
 				address: this.state.diachi,
 				cost: this.state.total,
-				items:  cookies.get('T')
+				items: [{"IdProduct":7,
+				"color":'black',
+				"quantity":1
+			}]
+
+
+				
 
 			}
 			// console.log(order)
 
-			axios.post('http://localhost:8080/newOrder',  qs.stringify(order),)
+			axios.post('http://localhost:8080/newOrder',  qs.stringify(order), {
+				  'Content-Type': 'application/json'
+				}
+			  )
 			  .then(function (response) {
 				  console.log(order)
 				alert("Đặt hàng thành công. Nhân viên Shopify sẽ liên lạc sớm cho quý khách để xác nhận đơn hàng.")
 				setTimeout(  window.location.href = '/',2000)
 			  })
 			  .catch(function (error) {
-				console.log(error);
+				alert("Đã xảy ra lỗi, vui lòng đặt lại")
 			  });
 			cookies.remove('T');
 			
@@ -147,7 +156,7 @@ this.checkdiachi=this.checkdiachi.bind(this);
 
 		this.setState({
 			Cart: cookies.get('T')!==undefined?cookies.get('T'):[] ,
-			total: total * 1000
+			total: total
 		})
 console.log(this.state.Cart)
 
@@ -251,7 +260,7 @@ console.log(this.state.Cart)
 												</div>
 												<div className="order-col">
 													<div><strong>Thành tiền</strong></div>
-													<div><strong className="order-total">{formatter.format(this.state.total)}</strong></div>
+													<div><strong className="order-total">{formatter.format(this.state.total*1000)}</strong></div>
 												</div>
 											</div>
 

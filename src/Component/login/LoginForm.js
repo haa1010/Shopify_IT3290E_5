@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import "./LoginForm.css"
 
-
+import Cookies from 'universal-cookie';
+const cookies = new Cookies();
 
 class LoginForm extends Component {
     constructor(props) {
@@ -26,7 +27,11 @@ class LoginForm extends Component {
         console.log(this.state.username);
         console.log(this.state.password);
        
-       if(this.state.username==='admin'&&this.state.password==='admin') {window.location.href = '/dasboad'; console.log(this.state.username)
+       if(this.state.username==='admin'&&this.state.password==='admin') {
+           
+      cookies.set('login', true, { path: '/', expires: 0 });
+        
+        window.location.href = '/dashboard'; 
     }
             else {
                 this.setState({ error: "username hoặc mật khẩu không chính xác" })

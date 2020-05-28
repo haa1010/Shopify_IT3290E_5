@@ -38,7 +38,7 @@ class App extends React.Component {
 
           </Route>
           <Route path='/admin' component={login}/>
-          <Route exact path='/dasboad' component={Admin}/>
+          <Route exact path='/dashboard' component={Admin}/>
           <Route path='/brand/:brand'  component={brand}></Route>
           <Route path='/cart' exact component={cart} ></Route>
           <Route path='/search/:search' component={search}/>

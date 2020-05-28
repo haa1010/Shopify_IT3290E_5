@@ -3,24 +3,33 @@ import Order from '../admin/OrderbyDay'
 
 import OldProduct from '../admin/oldProduct'
 import Store from '../admin/Storage'
-
+import N from '../admin/newProduct'
+import Cookies from 'universal-cookie';
+import Login from '../login/LoginForm'
+const cookies = new Cookies();
+var isLog = cookies.get('login');
 class Admin extends React.Component{
 constructor(props){
     super(props)
     this.state={
-        page:4
+        page:3
     }
     
-    this.change=this.change.bind(this)
-
+    this.change=this.change.bind(this);
+this.logout=this.logout.bind(this);
 }
-
+logout(){
+    cookies.remove('login');
+    window.location.href = '/'; 
+}
 change(e){
 this.setState({
     page:e
 })
 }
 render(){
+    if(isLog===undefined) return(<Login/>)
+    else
     return(
         <div>
         <div id="top-header">
@@ -29,11 +38,12 @@ render(){
                 <li><i className="fa fa-phone"></i> +021-95-51-84</li>
                 <li><i className="fa fa-envelope-o"></i> shopify@email.com</li>
                 <li><i className="fa fa-map-marker"></i> Số 1 Đại Cồ Việt</li>
+                <li className="pull-right" onClick={this.logout}>  Đăng xuất</li>
             </ul>
 
         </div>
     </div>
-    <div className="container-fluid" style={{backgroundColor:'#e8f4f8',height:'100vh'}} >
+    <div className="container-fluid" style={{backgroundColor:'#e8f4f8'}} >
         <div className='container' style={{height:'100%'}}>
          
 
@@ -55,10 +65,10 @@ render(){
             </ul>
           </div>
         </nav>
-      
+       
         {this.state.page===1&&<Order/>}
         {this.state.page===2&&<Store/>}
-       {this.state.page===3&&<newProduct/>}
+       {this.state.page===3&&<N/>}
         {this.state.page===4&&<OldProduct/>}
         
               </div>

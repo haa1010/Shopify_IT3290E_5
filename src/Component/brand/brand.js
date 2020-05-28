@@ -95,7 +95,7 @@ class Brand extends React.Component {
 
 
                                         {this.state.product.map((index, key) => (
-                                            <ProductBox id={index.id} name={index.nameproduct} price={index.price * 1000} url={index.urlimage} key={key} isNew={false} />
+                                            <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={index.urlimage} key={key} isNew={false} />
                                         ))}
 
 
