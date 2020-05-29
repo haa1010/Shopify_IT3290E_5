@@ -34,6 +34,7 @@ app.get('/products/:id', db.getProductById)
 app.get('/products/brand/:brandName', db.getProductByBrand)
 app.post('/newOrder', db.createNewOrder)
 app.get('/admin', db.getStatistic)
+app.get('/admin/orders/:id', db.getOrderById)
 app.put('/admin/update', db.updateProduct)
 app.post('/admin/create', db.createProduct)
 

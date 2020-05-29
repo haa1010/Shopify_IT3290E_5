@@ -114,6 +114,7 @@ const createNewOrder = async function (req, res) {
 // get statistic for admin 
 const getStatistic = async function (request, response) {
     var data = {
+        inComeByDate:{},
         today: {
             nOrder: null,
             nProduct: null,
@@ -128,14 +129,17 @@ const getStatistic = async function (request, response) {
     }
 
     try {
+        // income group by date for graph
+        t = await pool.query('select Day, sum(TotalCost) as Sum from Orders group by Day')
+        data.inComeByDate = t.rows
         // over time
-        var t = await pool.query('select * from Orders group by IdOrder, Day order by Day')
+        var t = await pool.query('select * from Orders group by IdOrder, Day order by Day desc')
         data.overTime.allOrder = t.rows
         t = await pool.query('select extract(month from Day) as Month, Sum(TotalCost) as Total from Orders group by extract(month from Day) ')
         data.overTime.inCome = t.rows
-        t = await pool.query('select NameProduct, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct')
+        t = await pool.query('select IdProduct, NameProduct, Color.color, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct, Color.color')
         data.overTime.inStock = t.rows
-        t = await pool.query('select NameProduct, sum(Quantity) as "Sold" from DetailOrder natural join Product group by  NameProduct')
+        t = await pool.query('select P.IdProduct, NameProduct, D.color, P.Price, sum(D.Quantity) as "Sold" from DetailOrder D natural join Product P group by NameProduct, P.IdProduct, D.color')
         data.overTime.sold = t.rows
         // today
         t = await pool.query('select count(IdOrder) as nOrder from Orders where Day = current_date')
@@ -151,12 +155,26 @@ const getStatistic = async function (request, response) {
     }
 }
 
+//  Get a single Order by id, use WHERE to check
+const getOrderById = async function (request, response) {
+    const id = request.params.id
+    var data = {}
+    try {
+        // get detail of product
+        var t = await pool.query('select * from Orders where IdOrder = $1', [id])
+        data = t.rows
+        response.status(200).send(data)
+    }
+    catch (e) {
+        response.status(400)
+    }
+}
+
 // Update data for a existing Product, use UPDATE
 const updateProduct = (request, response) => {
-    const { name, color, quantity } = request.body
-
+    const { id, color, quantity } = request.body
     pool.query(
-        'update Color set quantity = quantity + $1 from Product where NameProduct = $2 and Color.IdProduct = Product.IdProduct and Color.color = $3', [quantity, name, color],
+        'update Color set quantity = quantity + $1 where IdProduct = $2 and Color.color = $3', [quantity, id, color],
         (error, results) => {
             if (error) {
                 response.status(400).send(error)
@@ -219,6 +237,7 @@ module.exports = {
     getProductByBrand,
     createNewOrder,
     getStatistic,
+    getOrderById,
     deleteItem,
     createProduct,
     updateProduct,

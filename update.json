@@ -1,6 +1,6 @@
 // put : localhost:3000/admin/update
 {
-   "name":"Điện thoại Oppo Reno2 F",
+   "id":"1",
    "color":"Black",
    "quantity":10
 }
