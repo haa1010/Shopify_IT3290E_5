@@ -1,6 +1,6 @@
 const Pool = require('pg').Pool
 const pool = new Pool({
-    Product: 'hang',
+    user: 'hang',
     host: 'localhost',
     database: 'project',
     password: '1',
@@ -161,7 +161,7 @@ const getOrderById = async function (request, response) {
     var data = {}
     try {
         // get detail of product
-        var t = await pool.query('select * from Orders where IdOrder = $1', [id])
+        var t = await pool.query('select Orders.*, DetailOrder.*, P.NameProduct from Orders natural join Detailorder join Product P on DetailOrder.IdProduct = P.IdProduct  where IdOrder = $1', [id])
         data = t.rows
         response.status(200).send(data)
     }
