@@ -1,70 +1,138 @@
 import React, { Component } from 'react';
 import '../App.css';
-import {BrowserRouter as Link } from 'react-router-dom';
 
-let validation = () => {
-	var product_name = document.forms["InputForm"]["product_name"];			 
-	var product_id = document.forms["InputForm"]["product_id"]; 
-	var price = document.forms["InputForm"]["price"]; 
-	var color = document.forms["InputForm"]["color"]; 
-    var CPU = document.forms["InputForm"]["CPU"]; 
-    var OS = document.forms["InputForm"]["OS"]; 
-    var brand = document.forms["InputForm"]["brand"];
-    var memory = document.forms["InputForm"]["memory"];
-    var pin = document.forms["InputForm"]["pin"]; 
-    var quantity = document.forms["InputForm"]["quantity"];
-    var frontcam = document.forms["InputForm"]["frontcam"];
-    var backcam = document.forms["InputForm"]["backcam"];
-    var ngaySX = document.forms["InputForm"]["ngaySX"];
-    var URL = document.forms["InputForm"]["URL"];
 
-	if (product_name.value == "")								 
-	{ 
-		window.alert("Hãy nhập tên sản phẩmphẩm"); 
-		product_name.focus(); 
-		return false; 
-	} 
-
-	if (product_id.value == "")							 
-	{ 
-		window.alert("Hãy nhập ID sản phẩm"); 
-		product_id.focus(); 
-		return false; 
-	} 
-	
-	if (price.value == "" || price.value <= 0) 								 
-	{ 
-		window.alert("Hãy nhập giá sản phẩm hợp lệ"); 
-		price.focus(); 
-		return false; 
-	} 
-
-	if (color.value == "")						 
-	{ 
-		window.alert("Hãy nhập màu cho sản phẩm"); 
-		color.focus(); 
-		return false; 
-	} 
-
-	if (CPU.value == "")					 
-	{ 
-		window.alert("Hãy nhập tên CPU cho sản phẩm"); 
-		CPU.focus(); 
-		return false; 
-	} 
-
-	if (OS.value == "")				 
-	{ 
-		alert("Hãy nhập tên hệ điều hành cho sản phẩm"); 
-		OS.focus(); 
-		return false; 
-	} 
-
-	return true;  
-
+const initialState = {
+    product_name: "",
+    product_id: "",
+    price: "",
+    color: "",
+    cpu: "",
+    os: "",
+    url: "",
+    pin: "",
+    quantity: "",
+    subject: "",
+    product_nameError: "",
+    product_idError: "",
+    priceError: "",
+    colorError: "",
+    cpuError: "",
+    osError: "",
+    urlError: "",
+    pinError: "",
+    quantityError: "",
+    subjectError: ""
 }
 
-class NewProduct extends Component {
+    class NewProduct extends React.Component {
+    
+    constructor(props) {
+        super(props);
+        this.state = {value: ''};
+    
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange = (event) => {
+        const isCheckbox = event.target.type === "checkbox";
+        this.setState({
+            [event.target.name]: isCheckbox
+            ? event.target.checked
+            : event.target.value
+        });
+      };
+    
+    state = initialState;
+    
+    
+    
+      validate = () => {
+        let product_nameError = "";
+        let product_idError= "";
+        let priceError= "";
+        let colorError= "";
+        let cpuError= "";
+        let osError= "";
+        let urlError= "";
+        let pinError= "";
+        let quantityError= "";
+        let subjectError= "";
+    
+        if(!this.state.product_name) {
+            product_nameError = "Vui lòng nhập tên của sản phẩm";
+        }
+        
+        if(!this.state.product_id) {
+            product_idError = "Vui lòng nhập ID của sản phẩm";
+        }
+    
+        if(!this.state.price) {
+            priceError = "Vui lòng nhập giá của sản phẩm";
+        }
+    
+        if(this.state.price < 0) {
+            priceError = "Giá sản phẩm không hợp lệ";
+        }
+    
+        if(!this.state.color) {
+            colorError = "Vui lòng nhập màu của sản phẩm";
+        }
+    
+        if(!this.state.cpu) {
+            cpuError = "Vui lòng nhập tên CPU của sản phẩm";
+        }
+    
+        if(!this.state.os) {
+            osError = "Vui lòng nhập tên CPU của sản phẩm";
+        }
+    
+        if(!this.state.url) {
+            urlError = "Vui lòng nhập đường dẫn hình ảnh của sản phẩm";
+        }
+    
+        if(!this.state.pin) {
+            pinError = "Vui lòng nhập thông số pin của sản phẩm";
+        }
+    
+        if(!this.state.pin < 0) {
+            pinError = "Thông số pin không hợp lệ";
+        }
+    
+        if(!this.state.quantity) {
+            quantityError = "Vui lòng nhập số lượng sản phẩm";
+        }
+    
+        if(!this.state.quantity < 0) {
+            quantityError = "Số lượng sản phẩm không hợp lệ";
+        }
+    
+        if(!this.state.subject) {
+            subjectError = "Lựa chọn này không được để trống"
+        }
+    
+        if(!this.state.url.includes("http")) {
+            urlError = "Đường dẫn sai định dạng";
+        }
+        if (product_idError || product_nameError || priceError || colorError || cpuError || osError || urlError || pinError || quantityError || subjectError) {
+            this.setState({product_nameError, product_idError, priceError, colorError, cpuError, osError, urlError, pinError, quantityError, subjectError });
+            return false;
+        }
+        return true;
+      };
+    
+    
+      handleSubmit = event => {
+        event.preventDefault();
+        const isValid = this.validate();
+        if (isValid){
+            console.log(this.state);
+            //clear form
+            this.setState(initialState);
+        }
+    
+      };
     render() {
         return (
             <div>
@@ -73,27 +141,42 @@ class NewProduct extends Component {
                     <div className="card card-4">
                     <div className="card-body">
                     <h2 className="title">Input Form</h2>
-        <form name="InputForm" action="" onsubmit="return validation()" method="POST">
+        <form name="InputForm" action="" onSubmit={this.handleSubmit()} method="POST">
                     <div className="row row-space">
+
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">Tên Sản Phẩm</label>
-                        <input className="input--style-4" type="text" name="product_name" />
+                        <input className="input--style-4" 
+                        type="text" 
+                        value={this.state.product_name} 
+                        onChange={this.handleChange} 
+                        name="product_name" />
                     </div>
+
                     </div>
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">ID Sản Phẩm</label>
-                        <input className="input--style-4" type="text" name="product_id" />
+                        <input className="input--style-4" 
+                        type="text" 
+                        value={this.state.product_id} 
+                        onChange={this.handleChange} 
+                        name="product_id" />
                     </div>
                     </div>
+
                 </div>
                 <div className="row row-space">
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">Giá</label>
                         <div className="input-group-icon">
-                        <input className="input--style-4 js-datepicker" type="number" name="price" />
+                        <input className="input--style-4 js-datepicker" 
+                        type="number" 
+                        value={this.state.price} 
+                        onChange={this.handleChange} 
+                        name="price" />
                         </div>
                     </div>
                     </div>
@@ -101,7 +184,11 @@ class NewProduct extends Component {
                     <div className="input-group">
                         <label className="label">Màu</label>
                         <div className="input-group-icon">
-                        <input className="input--style-4 js-datepicker" type="text" name="color" />
+                        <input className="input--style-4 js-datepicker" 
+                        type="text" 
+                        value={this.state.color} 
+                        onChange={this.handleChange} 
+                        name="color" />
                         </div>
                     </div>
                     </div>
@@ -110,13 +197,21 @@ class NewProduct extends Component {
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">CPU</label>
-                        <input className="input--style-4" type="text" name="CPU" />
+                        <input className="input--style-4" 
+                        type="text" 
+                        value={this.state.cpu} 
+                        onChange={this.handleChange} 
+                        name="cpu" />
                     </div>
                     </div>
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">Hệ Điều Hành</label>
-                        <input className="input--style-4" type="text" name="OS" />
+                        <input className="input--style-4" 
+                        type="text" 
+                        value={this.state.os} 
+                        onChange={this.handleChange} 
+                        name="os" />
                     </div>
                     </div>
                 </div>
@@ -130,7 +225,7 @@ class NewProduct extends Component {
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">Bộ Nhớ</label>
-                        <input className="input--style-4" type="numbernumber" name="memory" />
+                        <input className="input--style-4" type="number" name="memory" />
                     </div>
                     </div>
                 </div>
@@ -138,7 +233,7 @@ class NewProduct extends Component {
                     <div className="col-2">
                     <div className="input-group">
                         <label className="label">Pin</label>
-                        <input className="input--style-4" type="number" name="pin" />
+                        <input className="input--style-4" type="number" value={this.pin} onChange={this.handleChange} name="pin" />
                     </div>
                     </div>
                     <div className="col-2">
@@ -188,9 +283,6 @@ class NewProduct extends Component {
                         <div className="radio-container">
                         <button className="btn btn--radius-2 btn--blue" type="submit">Submit</button>
                         </div>
-                        </label>
-                        <label className="radio-container">
-                            <button className="btn btn--radius-2 btn--blue" type="button"><a href= "/home" style={{color: 'white', textDecoration: 'none'}}> Back </a></button>
                         </label>
                     </div>
                     </div>

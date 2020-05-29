@@ -1,22 +1,18 @@
 import React from 'react';
 import '../App.css';
+import NewProduct from './newProduct';
 // import Home from './Home';
-import DieuHuong from '../router/DieuHuong';
 // import OldProduct from './oldProduct';
-import {BrowserRouter as Router, Route} from "react-router-dom";
-// import NewProduct from './newProduct';
+
 
 class App extends React.Component {
   render() {
     return (
-      <Router>
       <div>
     
-        <DieuHuong></DieuHuong>
-        {/* <OldProduct></OldProduct> */}
-        {/* <NewProduct></NewProduct> */}
+        <NewProduct></NewProduct>
+        
       </div>
-      </Router>
     );
   }
 }
