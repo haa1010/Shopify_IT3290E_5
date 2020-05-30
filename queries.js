@@ -114,7 +114,7 @@ const createNewOrder = async function (req, res) {
 // get statistic for admin 
 const getStatistic = async function (request, response) {
     var data = {
-        inComeByDate:{},
+        inComeByDate: {},
         today: {
             nOrder: null,
             nProduct: null,
@@ -174,17 +174,20 @@ const getOrderById = async function (request, response) {
 }
 
 // Update data for a existing Product, use UPDATE
-const updateProduct = (request, response) => {
+const updateProduct = async function (request, response) {
     const { id, color, quantity } = request.body
-    pool.query(
-        'update Color set quantity = quantity + $1 where IdProduct = $2 and Color.color = $3', [quantity, id, color],
-        (error, results) => {
-            if (error) {
-                response.status(400).send(error)
-            }
-            response.status(200).send(`Product ${name} ${color} added by ${quantity}`)
+    try {
+        var t = await pool.query('select quantity from Color where IdProduct = $1 and Color= $2', [id, color])
+        if (t.rows.length < 1) {
+            await pool.query('insert into  Color values ($1, $2, $3)', [id, color, quantity])
         }
-    )
+        else {
+            await pool.query('update Color set quantity = quantity + $1 where IdProduct = $2 and Color = $3', [quantity, id, color])
+        }
+        response.status(200).send(`Product ${id} with color ${color} added by ${quantity}`)
+    } catch (e) {
+        response.status(400).send(e)
+    }
 }
 
 // create a new Product, extract from req, use INSERT
