@@ -121,10 +121,11 @@ const getStatistic = async function (request, response) {
             nMoney: null
         },
         overTime: {
+            statistic: null, // statistic = sold + instock
             allOrder: null,
-            sold: null,
-            inStock: null,
-            inCome: null
+            // sold: null,
+            // inStock: null,
+            inCome: null,
         }
     }
 
@@ -137,10 +138,12 @@ const getStatistic = async function (request, response) {
         data.overTime.allOrder = t.rows
         t = await pool.query('select extract(month from Day) as Month, Sum(TotalCost) as Total from Orders group by extract(month from Day) ')
         data.overTime.inCome = t.rows
-        t = await pool.query('select IdProduct, NameProduct, Color.color, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct, Color.color')
-        data.overTime.inStock = t.rows
-        t = await pool.query('select P.IdProduct, NameProduct, D.color, P.Price, sum(D.Quantity) as "Sold" from DetailOrder D natural join Product P group by NameProduct, P.IdProduct, D.color')
-        data.overTime.sold = t.rows
+        // t = await pool.query('select IdProduct, NameProduct, Color.color, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct, Color.color')
+        // data.overTime.inStock = t.rows
+        // t = await pool.query('select P.IdProduct, NameProduct, D.color, P.Price, sum(D.Quantity) as "Sold" from DetailOrder D natural join Product P group by NameProduct, P.IdProduct, D.color')
+        // data.overTime.sold = t.rows
+        t = await pool.query('select * from statistic')
+        data.overTime.statistic = t.rows
         // today
         t = await pool.query('select count(IdOrder) as nOrder from Orders where Day = current_date')
         data.today.nOrder = t.rows[0].norder
