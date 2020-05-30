@@ -129,16 +129,20 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
 
 
                                 <div className="col-md-7 col-lg-7 col-3">
-                                    <div className="header-search">
-                                        <form>
-                                            <select className="input-select">
+                                    <div className="header-search"  style={{margin:'auto 0'}}>
+                                       <form className='row'> 
+
+                                            <select className="input-select"  style={{margin:'auto 0'}}>
                                                 <option value="0">Danh mục</option>
                                                 <option value="1">Điện thoại</option>
 
                                             </select>
-                                            <input className="input" ref="txt" placeholder="Search here" />
-                                            <button className="search-btn" onClick={(event)=>(this.search(event))}>Search</button>
-                                        </form>
+                                            <div style={{minWidth:'250px'}}>
+                                            <input className="input" ref="txt" placeholder="Search here" style={{margin:'auto 0',minWidth:'100%'}}/>
+                                            </div>
+                                           
+                                            <button className="search-btn" onClick={(event)=>(this.search(event))}  style={{margin:'auto 0',fontSize:'15px'}}>Search</button>
+                                            </form>
                                     </div>
                                 </div>
 

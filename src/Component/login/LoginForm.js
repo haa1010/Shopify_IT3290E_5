@@ -103,8 +103,8 @@ class LoginForm extends Component {
                                 {(this.state.formErrors.password.length > 0 ) && (<div style={errStyle}>{this.state.formErrors.password}</div>)}
                                 
                          
-                                <div className="container-login100-form-btn float-center justify-content-center" >
-                                    <button className="btn btn btn-outline-dark "  type='submit'  onClick={this.handleSubmit}style={{height:'40px',fontSize:'25px',marginLeft:'27%'}}>
+                                <div className="container-login100-form-btn float-center d-flex justify-content-center align-item-center" >
+                                    <button className="btn btn btn-outline-dark "  type='submit'  onClick={this.handleSubmit}style={{fontSize:'25px'}}>
                                         Đăng nhập
                                     </button>
                                 </div>

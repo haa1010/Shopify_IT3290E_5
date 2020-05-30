@@ -205,7 +205,18 @@ textarea.input {
   -ms-user-select: none;
   user-select: none;
 }
+.cant{
+  background-color: black!important;
+  pointer-events: none;
+}
 
+
+span.hover:hover{
+   
+		color: #ed1212;
+		cursor: pointer;
+	
+}
 .input-number .qty-up {
   right: 0;
   top: 0;

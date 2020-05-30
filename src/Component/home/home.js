@@ -89,7 +89,7 @@ class Home extends React.Component {
             >
                
                {this.state.product.map((index, key) => (
-                                        <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={this.state.url[key].urlimage} key={key} isNew={true} />
+                                        <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price} url={this.state.url[key].urlimage} key={key} isNew={true} />
                ))}
              
               
@@ -134,7 +134,7 @@ class Home extends React.Component {
 
 
                                     {this.state.product.map((index, key) => (
-                                        <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={this.state.url[key].urlimage} key={key} isNew={false} />
+                                        <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price} url={this.state.url[key].urlimage} key={key} isNew={false} />
                                     ))}
 
 

@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../Header/header'
 import Footer from '../footer/footer'
 import Cookies from 'universal-cookie';
+
 const cookies = new Cookies();
 
 class Product extends React.Component {
@@ -60,19 +61,34 @@ class Product extends React.Component {
 
 
     }
-    handleColor(key, index) {
-        if (this.state.Qty[key].quantity === 0) this.setState({
+    handleColor=(event)=> {
+let value=null;
+value=event.target.value;
+var index=-1;
+        console.log(value)
+      for(var i=0;i<this.state.Qty.length;i++){
+          if(this.state.Qty[i].color.localeCompare(value)==0){
+            index=i;
+            break;
+          }
+      } 
+      
+      
+         if (this.state.Qty[index].quantity == 0) {;this.setState({
             errFormColor: 'Het hang',
 
             qty: 0
 
-        })
+        })}
         else
 
             this.setState({
-                color: index,
-                qty: this.state.Qty[key].quantity
+                color: value,
+                qty: this.state.Qty[index].quantity,
+                errFormColor:''
             })
+            console.log(this.state.color);
+            console.log(this.state.qty)
 
     }
     handleOrder = async e => {
@@ -197,7 +213,9 @@ console.log(json_str)
 
                         });
 
-
+if(this.state.qty===0) this.setState({
+    errFormColor:'Hết hàng'
+})
 
                     },
                     // error handler
@@ -250,13 +268,11 @@ console.log(json_str)
 
                                 <div className="col-md-2 col-md-push-2">
                                     <div id="product-main-img">
-
-                                        {this.state.url.map((index, key) => (
+                                 {this.state.url.map((index, key) => (
                                             <div key={key} className="product-preview">
                                                 <img src={index} alt="" height='120px' onClick={() => (this.changeImage(index))} />
                                             </div>
                                         ))}
-
 
                                     </div>
                                 </div>
@@ -295,21 +311,21 @@ console.log(json_str)
                                                 <i className="fa fa-star"></i>
                                                 <i className="fa fa-star-o"></i>
                                             </div>
-                                            <span className="review-link" onClick={() => (this.changePage(3))}>10 Review(s) | Add your review</span>
+                                            <span className="review-link hover"  onClick={() => (this.changePage(3))}>10 Review(s) | Add your review</span>
                                         </div>
                                         <div>
                                             <h3 className="product-price"> {formatter.format(this.state.product.price * 1000)}  </h3>
 
                                         </div>
                                         <p></p>
-                                        <form onSubmit={this.handleOrder}>
-                                            <div className="product-options">
+                                        <form onSubmit={this.handleOrder} className='d-flex flex-column'>
+                                            <div className="product-options  ">
 
                                                 <label>
                                                     Màu
-									<select className="input-select ml-4" id="color">
+									<select className="input-select ml-4" id="color " value={this.state.color} onChange={this.handleColor}>
                                                         {this.state.Qty.map((index, key) => (
-                                                            <option defaultValue={key === 0 ? "selected" : ''} key={key} value={index.color} onClick={() => (this.handleColor(key, index.color))}>{index.color}</option>
+                                                            <option  key={key} value={index.color} >{index.color}</option>
                                                         ))}
 
                                                     </select>
@@ -317,7 +333,7 @@ console.log(json_str)
                                                 <span style={{ color: 'red', marginLeft: '10px' }}>{this.state.errFormColor}</span>
                                             </div>
 
-                                            <div className={this.state.qty === 0 ? "add-to-cart disable" : "add-to-cart"}>
+                                            <div className= "add-to-cart ">
 
                                                 <div className="qty-label">
                                                     Số lượng
@@ -327,9 +343,9 @@ console.log(json_str)
                                                     </div>
                                                     <span style={{ color: 'red', marginLeft: '10px' }} id='noti'>{this.state.errFormQty}</span>
                                                 </div>
-                                                <br />
-                                                <br />
-                                                <button className={this.state.qty === 0 ? "add-to-cart-btn disable" : "add-to-cart-btn"}><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+                                               <br/>
+                                               <br/>
+                                                <button className= {this.state.qty===0?"cant add-to-cart-btn":"add-to-cart-btn"} disabled={this.state.qty === 0 ? true:false}><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
 
 
 
@@ -344,9 +360,9 @@ console.log(json_str)
                                     <div id="product-tab">
 
                                         <ul className="tab-nav">
-                                            <li className="active"><span data-toggle="tab" onClick={() => (this.changePage(0))}>Mô tả</span></li>
-                                            <li><span data-toggle="tab" onClick={() => (this.changePage(1))}>Chi tiết</span></li>
-                                            <li><span data-toggle="tab" onClick={() => (this.changePage(2))}>Reviews (3)</span></li>
+                                            <li className=" active"><span className=" hover"data-toggle="tab" onClick={() => (this.changePage(0))}>Mô tả</span></li>
+                                            <li><span data-toggle="tab" className='hover' onClick={() => (this.changePage(1))}>Chi tiết</span></li>
+                                            <li><span data-toggle="tab" className='hover'onClick={() => (this.changePage(2))}>Reviews (3)</span></li>
                                         </ul>
 
                                         <div className="tab-content">
