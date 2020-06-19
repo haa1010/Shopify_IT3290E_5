@@ -20,7 +20,7 @@ app.use(
 //   }
 // });
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/login.html')
+  res.send('Hiiii. You go to wrong path! Try localhost:8080/admin')
 })
 
 app.listen(port, () => {
@@ -37,7 +37,3 @@ app.get('/admin', db.getStatistic)
 app.get('/admin/orders/:id', db.getOrderById)
 app.put('/admin/update', db.updateProduct)
 app.post('/admin/create', db.createProduct)
-
-// app.post('/deleteItem',db.deleteItem)
-
-// app.delete('/products/:id', db.deleteProduct)

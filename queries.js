@@ -131,17 +131,13 @@ const getStatistic = async function (request, response) {
 
     try {
         // income group by date for graph
-        t = await pool.query('select Day, sum(TotalCost) as Sum from Orders group by Day')
+        t = await pool.query('select Day, sum(TotalCost) as Sum from Orders group by Day order by Day')
         data.inComeByDate = t.rows
         // over time
         var t = await pool.query('select * from Orders group by IdOrder, Day order by Day desc')
         data.overTime.allOrder = t.rows
         t = await pool.query('select extract(month from Day) as Month, Sum(TotalCost) as Total from Orders group by extract(month from Day) ')
         data.overTime.inCome = t.rows
-        // t = await pool.query('select IdProduct, NameProduct, Color.color, sum(Quantity) as "InStock" from Product natural join Color group by IdProduct, Color.color')
-        // data.overTime.inStock = t.rows
-        // t = await pool.query('select P.IdProduct, NameProduct, D.color, P.Price, sum(D.Quantity) as "Sold" from DetailOrder D natural join Product P group by NameProduct, P.IdProduct, D.color')
-        // data.overTime.sold = t.rows
         t = await pool.query('select * from statistic')
         data.overTime.statistic = t.rows
         // today
@@ -212,29 +208,6 @@ const createProduct = async function (request, response) {
 
 }
 
-// remove items from cash -- body: orderID, productID, quantity, color
-const deleteItem = (req, res) => {
-    const order = req.body
-    pool.query('DELETE FROM order WHERE id = $1', [order.id], [order.productID], [order.quantity], [order.color], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200)
-    })
-}
-
-
-// DELETE Product by id
-const deleteProduct = (request, response) => {
-    const id = parseInt(request.params.id)
-
-    pool.query('DELETE FROM products WHERE id = $1', [id], (error, results) => {
-        if (error) {
-            throw error
-        }
-        response.status(200).send(`Product deleted with ID: ${id}`)
-    })
-}
 
 // export to access these functions from index.js
 module.exports = {
@@ -244,8 +217,6 @@ module.exports = {
     createNewOrder,
     getStatistic,
     getOrderById,
-    deleteItem,
     createProduct,
     updateProduct,
-    deleteProduct
 }

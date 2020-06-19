@@ -1,7 +1,5 @@
 ﻿-- Database: shoptest
 
--- DROP DATABASE shoptest;
-
 CREATE DATABASE shoptest
   WITH OWNER = me
        ENCODING = 'UTF8'
