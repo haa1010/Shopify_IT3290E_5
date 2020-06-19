@@ -1,0 +1,12 @@
+.flex-center{
+ 
+    align-items:center ;
+    align-self: center;
+    align-content: center;
+    margin-top: 1%;
+}
+.navbar-Inner{
+    background-color: #1A83CC !important;
+    color:white;
+    padding-left: 15px;
+}
