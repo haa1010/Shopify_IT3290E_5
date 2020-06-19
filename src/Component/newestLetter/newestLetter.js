@@ -15,10 +15,10 @@ class Letter extends React.Component {
                         <div className="row">
                             <div className="col-md-12">
                                 <div className="newsletter">
-                                    <p>Sign Up for the <strong>NEWSLETTER</strong></p>
+                                    <p> Đăng ký để nhận <strong>thông tin mới nhất</strong></p>
                                     <form>
                                         <input className="input" type="email"   laceholder="Enter Your Email" />
-                                        <button className="newsletter-btn" ><i className="fa fa-envelope"></i> Subscribe</button>
+                                        <button className="newsletter-btn" ><i className="fa fa-envelope"></i> Theo dõi</button>
                                     </form>
                                     <ul className="newsletter-follow">
                                         <li>

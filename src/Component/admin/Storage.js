@@ -74,7 +74,7 @@ logout(){
           <div class="collapse navbar-collapse" id="navbarNav">
         
         
-            <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'18px'}}>
+            <ul class="navbar-nav d-flex justify-content-around pt-4 pb-5" style={{fontSize:'20px'}}>
               <li className="nav-item mr-5" > <Link to='/dashboard'>Thống kê đơn hàng</Link></li>
                         <li className="nav-item  justify-content-around mr-5"  ><Link to='/dashboard/store'> Thống kê sản phẩm </Link></li>
                         <li className="nav-item  justify-content-around mr-5" > <Link to='/dashboard/addNew'>Thêm sản phẩm mới</Link></li>
@@ -90,9 +90,9 @@ logout(){
        
           <div className="container-fluid">
             <div className="card mb-4">
-              <div className="card-header">Hàng Hóa Trong Kho</div>
+              <div className="card-header" style={{fontSize:'20px'}}>Hàng Hóa Trong Kho</div>
               <div className="card-body">
-                <div className="table-responsive" style={{ maxHeight: '700px',
+                <div className="table-responsive" style={{ maxHeight: '800px',
                overflowY: 'scroll'}}>
                   <table className="table table-bordered" id="dataTable2" width="100%" cellSpacing={0}>
                     <thead>

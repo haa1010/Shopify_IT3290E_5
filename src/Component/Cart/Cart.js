@@ -174,7 +174,7 @@ class Cart extends React.Component {
 							<div className="col-md-12">
 								<h3 className="breadcrumb-header">Mua hàng</h3>
 								<ul className="breadcrumb-tree">
-									<li><a href="/">Home</a></li>
+									<li><a href="/">Trang chủ</a></li>
 									<li className="active">Mua hàng</li>
 								</ul>
 							</div>
@@ -196,25 +196,25 @@ class Cart extends React.Component {
 											<div className="section-title">
 
 
-												<h3 className="title">Thông tin khách hàng</h3>
+												<h3 className="title" style={{fontSize:'23px'}}>Thông tin khách hàng</h3>
 											</div>
 											<div className="form-group">
-												<input className="input" type="text" name="name" style={this.state.styleName} ref="ten" placeholder=" Name" onChange={this.checkname} />
+												<input className="input" type="text" name="name" style={this.state.styleName} ref="ten" placeholder=" Tên" onChange={this.checkname} />
 												<p id="wrongname" style={{ display: 'none', color: 'red' }}>{this.state.erroName}</p>
 											</div>
 											<div className="form-group">
-												<input className="input" type="text" style={this.state.styleDiachi} name="address" ref="diachi" placeholder="Address" onChange={this.checkdiachi} />
+												<input className="input" type="text" style={this.state.styleDiachi} name="address" ref="diachi" placeholder="Địa chỉ" onChange={this.checkdiachi} />
 												<p id="wrongdiachi" style={{ display: 'none', color: 'red' }}>{this.state.errdiachi}</p>
 											</div>
 											<div className="form-group">
-												<input className="input" style={this.state.style} type="tel" ref='phonenumber' name="tel" id='phonenumber' placeholder="Telephone" onChange={this.checkphone} />
+												<input className="input" style={this.state.style} type="tel" ref='phonenumber' name="tel" id='phonenumber' placeholder="Số điện thoại" onChange={this.checkphone} />
 												<p id="wrongPhone" style={{ display: 'none', color: 'red' }}>{this.state.errPhone}</p>
 											</div>
 
 										</div>
 
 										<div className="order-notes">
-											<textarea className="input" placeholder="Order Notes"></textarea>
+											<textarea className="input" placeholder="Ghi chú"></textarea>
 										</div>
 										{this.state.errForm !== '' && <h4 style={{ border: '1px solid red', color: 'red', height: '25px' }}> {this.state.errForm}</h4>
 										}

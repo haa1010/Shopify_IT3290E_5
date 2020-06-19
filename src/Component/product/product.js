@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../Header/header'
 import Footer from '../footer/footer'
 import Cookies from 'universal-cookie';
-
+import *  as moment from 'moment'
 const cookies = new Cookies();
 
 class Product extends React.Component {
@@ -311,7 +311,7 @@ if(this.state.qty===0) this.setState({
                                                 <i className="fa fa-star"></i>
                                                 <i className="fa fa-star-o"></i>
                                             </div>
-                                            <span className="review-link hover"  onClick={() => (this.changePage(3))}>10 Review(s) | Add your review</span>
+                                            <span className="review-link hover"  onClick={() => (this.changePage(3))}>3 nhận xét</span>
                                         </div>
                                         <div>
                                             <h3 className="product-price"> {formatter.format(this.state.product.price * 1000)}  </h3>
@@ -359,17 +359,17 @@ if(this.state.qty===0) this.setState({
                                 <div className="col-md-12">
                                     <div id="product-tab">
 
-                                        <ul className="tab-nav">
+                                        <ul className="tab-nav" style={{fontSize:'18px'}}>
                                             <li className=" active"><span className=" hover"data-toggle="tab" onClick={() => (this.changePage(0))}>Mô tả</span></li>
                                             <li><span data-toggle="tab" className='hover' onClick={() => (this.changePage(1))}>Chi tiết</span></li>
-                                            <li><span data-toggle="tab" className='hover'onClick={() => (this.changePage(2))}>Reviews (3)</span></li>
+                                            <li><span data-toggle="tab" className='hover'onClick={() => (this.changePage(2))}>Nhận xét (3)</span></li>
                                         </ul>
 
                                         <div className="tab-content">
                                             {this.state.curPage === 0 &&
                                                 <div className="tab-pane fade-in active">
                                                     <div className="row">
-                                                        <div className="col-md-12">
+                                                        <div className="col-md-12"style={{fontSize:'15px'}}>
                                                             <p>{this.state.product.describepr}</p>
                                                         </div>
                                                     </div>
@@ -380,7 +380,7 @@ if(this.state.qty===0) this.setState({
                                                     <div className="tab-content" >
                                                         <div className="tab-pane active" id="home">
                                                             <h4>Thông tin sản phầm</h4>
-                                                            <table className="table table-bordered">
+                                                            <table className="table table-bordered" style={{fontSize:'15px'}}> 
                                                                 <tbody>
                                                                     <tr className="techSpecRow"><th colspan="2">Chi tiết sản phẩm</th></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">Hãng: </td><td className="techSpecTD2">{this.state.product.brand}</td></tr>
@@ -390,7 +390,7 @@ if(this.state.qty===0) this.setState({
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">CPU</td><td className="techSpecTD2">{this.state.specification.cpu}</td></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">Pin</td><td className="techSpecTD2">{this.state.specification.pin}</td></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">Hệ điều hành</td><td className="techSpecTD2">{this.state.specification.os}</td></tr>
-                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Ngày sản xuất</td><td className="techSpecTD2">{this.state.product.datesx}</td></tr>
+                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Ngày sản xuất</td><td className="techSpecTD2">{moment(this.state.product.datesx).format('DD/MM/YYYY')}</td></tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
@@ -488,8 +488,8 @@ if(this.state.qty===0) this.setState({
                                                                 <ul className="reviews">
                                                                     <li>
                                                                         <div className="review-heading">
-                                                                            <h5 className="name">John</h5>
-                                                                            <p className="date">27 DEC 2018, 8:0 PM</p>
+                                                                            <h5 className="name">Hoa</h5>
+                                                                            <p className="date">27/11/2018, 8:0 PM</p>
                                                                             <div className="review-rating">
                                                                                 <i className="fa fa-star"></i>
                                                                                 <i className="fa fa-star"></i>
@@ -499,13 +499,13 @@ if(this.state.qty===0) this.setState({
                                                                             </div>
                                                                         </div>
                                                                         <div className="review-body">
-                                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                                            <p>Sản phẩm chất lượng, giá phải chăng</p>
                                                                         </div>
                                                                     </li>
                                                                     <li>
-                                                                        <div className="review-heading">
-                                                                            <h5 className="name">John</h5>
-                                                                            <p className="date">27 DEC 2018, 8:0 PM</p>
+                                                                    <div className="review-heading">
+                                                                            <h5 className="name">Lan</h5>
+                                                                            <p className="date">27/11/2018, 8:0 PM</p>
                                                                             <div className="review-rating">
                                                                                 <i className="fa fa-star"></i>
                                                                                 <i className="fa fa-star"></i>
@@ -515,13 +515,13 @@ if(this.state.qty===0) this.setState({
                                                                             </div>
                                                                         </div>
                                                                         <div className="review-body">
-                                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                                            <p>Sản phẩm chất lượng, giá phải chăng</p>
                                                                         </div>
                                                                     </li>
                                                                     <li>
-                                                                        <div className="review-heading">
-                                                                            <h5 className="name">John</h5>
-                                                                            <p className="date">27 DEC 2018, 8:0 PM</p>
+                                                                    <div className="review-heading">
+                                                                            <h5 className="name">Nam</h5>
+                                                                            <p className="date">27/11/2018, 8:0 PM</p>
                                                                             <div className="review-rating">
                                                                                 <i className="fa fa-star"></i>
                                                                                 <i className="fa fa-star"></i>
@@ -531,7 +531,7 @@ if(this.state.qty===0) this.setState({
                                                                             </div>
                                                                         </div>
                                                                         <div className="review-body">
-                                                                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+                                                                            <p>Sản phẩm chất lượng, giá phải chăng</p>
                                                                         </div>
                                                                     </li>
                                                                 </ul>

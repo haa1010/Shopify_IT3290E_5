@@ -64,7 +64,7 @@ class Brand extends React.Component {
 				<div className="row">
 					<div className="col-md-12">
 						<ul className="breadcrumb-tree">
-							<li><a href="/">Home</a></li>
+							<li><a href="/">Trang chủ</a></li>
 							
 							<li className="active">{match.params.brand}</li>
 						</ul>
@@ -95,7 +95,7 @@ class Brand extends React.Component {
 
 
                                         {this.state.product.map((index, key) => (
-                                            <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={index.urlimage} key={key} isNew={false} />
+                                            <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price } url={index.urlimage} key={key} isNew={false} />
                                         ))}
 
 

@@ -138,10 +138,10 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
 
                                             </select>
                                             <div style={{minWidth:'250px'}}>
-                                            <input className="input" ref="txt" placeholder="Search here" style={{margin:'auto 0',minWidth:'100%'}}/>
+                                            <input className="input" ref="txt" placeholder="Tìm kiếm" style={{margin:'auto 0',minWidth:'100%'}}/>
                                             </div>
                                            
-                                            <button className="search-btn" onClick={(event)=>(this.search(event))}  style={{margin:'auto 0',fontSize:'15px'}}>Search</button>
+                                            <button className="search-btn" onClick={(event)=>(this.search(event))}  style={{margin:'auto 0',fontSize:'15px'}}> Tìm kiếm</button>
                                             </form>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
                                                         })} 
                                                 <Dropdown.Item><div className="cart-summary">
                                                    
-                                                    <h5>SUBTOTAL: {formatter.format(this.state.total)}</h5>
+                                                    <h5>Tổng: {formatter.format(this.state.total)}</h5>
                                                 </div>
 
                                                 </Dropdown.Item>

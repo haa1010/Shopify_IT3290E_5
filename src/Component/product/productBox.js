@@ -54,8 +54,7 @@ addItems(event){
 											</div>
 											<div className="add-to-cart" style={{zIndex:'10',position:"absolute"}}>
 												
-												<button className="add-to-cart-btn"><Link  to={"/product/"+this.props.id}  ><i className="fa fa-shopping-cart"></i> add to
-													cart</Link></button>
+												<button className="add-to-cart-btn"><Link  to={"/product/"+this.props.id}  ><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</Link></button>
 											</div>
 										</div>
 

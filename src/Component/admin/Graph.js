@@ -13,7 +13,7 @@ class Graph extends Component {
     render() {
       const options = {
         title: {
-          text: "thống kê doanh thu theo ngày"
+          text: "Thống kê doanh thu theo ngày"
         },
         data: [{				
                   type: "column",
@@ -22,9 +22,9 @@ class Graph extends Component {
      }
       
      return (
-        <div>
+        <div style={{marginBottom:'5%', marginTop:'5%'}}>
           <CanvasJSChart options = {options}
-              /* onRef = {ref => this.chart = ref} */
+               onRef = {ref => this.chart = ref} 
           />
         </div>
       );

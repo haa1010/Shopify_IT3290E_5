@@ -48,9 +48,9 @@ class banner extends  React.Component{
   <div class="collapse navbar-collapse" id="navbarNav">
 
 
-    <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'18px'}}>
-      <li className="nav-item mr-5" style={{width:'70px'}}> <a href="/">Home</a></li>
-			 {this.state.brand.map((index, key) => (
+    <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'20px'}}>
+      <li className="nav-item mr-5" style={{width:'130px'}}> <a href="/">Trang chủ</a></li>
+			 {this.state.brand&&this.state.brand.map((index, key) => (
 				<li className="nav-item  justify-content-around mr-5"  key={key}><a href={"/brand/"+index}>{index}</a></li>
 			))
 

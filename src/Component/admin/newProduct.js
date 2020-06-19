@@ -80,7 +80,6 @@ class App extends React.Component {
 }
   handleSubmit = async e => {
     e.preventDefault();
-    console.log('xxx');
     if (formValid(this.state.formErrors,this.state.backcam,this.state.brand,this.state.color,this.state.cpu,this.state.description,this.state.frontcam,this.state.os,this.state.pin,this.state.product_id,this.state.product_name,this.state.quantity,this.state.url1,this.state.url2,this.state.url3,this.state.behind)) {
       var flat=0;
      
@@ -314,7 +313,7 @@ break;
             <div className="collapse navbar-collapse" id="navbarNav">
 
 
-              <ul className="navbar-nav d-flex justify-content-around" style={{ fontSize: '18px' }}>
+            <ul class="navbar-nav d-flex justify-content-around pt-4 pb-5" style={{fontSize:'20px'}}>
                 <li className="nav-item mr-5" > <Link to='/dashboard'>Thống kê đơn hàng</Link></li>
                 <li className="nav-item  justify-content-around mr-5"  ><Link to='/dashboard/store'> Thống kê sản phẩm </Link></li>
                 <li className="nav-item  justify-content-around mr-5" > <Link to='/dashboard/addNew'>Thêm sản phẩm mới</Link></li>
@@ -327,7 +326,7 @@ break;
       <div className="wrapper">
         <div className="form-wrapper">
           <h1>Nhập thông tin sản phẩm </h1>
-          <form onSubmit={this.handleSubmit} noValidate>
+          <form onSubmit={this.handleSubmit} noValidate style={{fontSize:'20px'}}>
             <div className="product_name">
               <label htmlFor="product_name">Tên sản phẩm</label>
               <input
@@ -573,7 +572,7 @@ break;
             </div>
                {this.state.flag&&<span className='errorMessage'>{this.state.error}</span>}
             <div className="formSubmit">
-              <button type="submit">Submit</button>
+              <button type="submit">Xác nhận</button>
             </div>
           </form>
         </div>

@@ -12,7 +12,7 @@ class Footer extends React.Component{
 						<div className="row">
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
-									<h3 className="footer-title">About Us</h3>
+									<h3 className="footer-title"> Về chúng tôi</h3>
 									<p></p>
 									<ul className="footer-links" style={{fontSize:'16px'}}>
 										<li><span ><i className="fa fa-map-marker"></i>số 1 Đại Cồ Việt</span></li>
@@ -24,7 +24,7 @@ class Footer extends React.Component{
 		
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
-									<h3 className="footer-title">Members</h3>
+									<h3 className="footer-title">Thành viên </h3>
 									<ul className="footer-links" style={{fontSize:'16px'}}> 
 										<li>1.Trần Thị Hằng</li>
 										<li>2.Dương Thị Huê</li>
@@ -39,26 +39,26 @@ class Footer extends React.Component{
 		
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
-									<h3 className="footer-title">Information</h3>
+									<h3 className="footer-title">Thông tin</h3>
 									<ul className="footer-links" style={{fontSize:'16px'}}>
-										<li>About Us</li>
-										<li>Contact Us</li>
-										<li>Privacy Policy</li>
-										<li>Orders and Returns</li>
-										<li>Terms & Conditions</li>
+										<li>Về chúng tôi</li>
+										<li>Liên hệ</li>
+										<li>Điều khoản và dịch vụ</li>
+										<li>Đơn hàng và đổi trả</li>
+										<li>Điều kiện</li>
 									</ul>
 								</div>
 							</div>
 		
 							<div className="col-md-3 col-xs-6">
 								<div className="footer">
-									<h3 className="footer-title">Service</h3>
+									<h3 className="footer-title">Dịch vụ</h3>
 									<ul className="footer-links" style={{fontSize:'16px'}}>
-										<li>My Account</li>
-										<li>View Cart</li>
-										<li>Wishlist</li>
-										<li>Track My Order</li>
-										<li>Help</li>
+										<li>Tài khoản </li>
+										<li>Giỏ hàng</li>
+									
+										<li>Đơn hàng</li>
+										<li>Giúp đỡ</li>
 									</ul>
 								</div>
 							</div>
@@ -85,7 +85,7 @@ class Footer extends React.Component{
 								</ul>
 								<span className="copyright">
 									
-									Copyright &copy;
+									Bản quyền &copy;
 									<script>document.write(new Date().getFullYear());</script> All rights reserved | This
 									template is made with <i className="fa fa-heart-o" aria-hidden="true"></i> 
 									

@@ -43,24 +43,20 @@ class OrderbyDay extends Component {
 
 
           });
-
+console.log(result.inComeByDate)
          var data=[]
           for (var i = 0; i < result.inComeByDate.length; i++) {
             var order = moment(result.inComeByDate[i].day).format('DD/MM/YYYY')
             var x = parseInt(result.inComeByDate[i].sum*1000);
-            console.log(x)
+           
           data.push({label: order,  y: x  });
           
 
-            }
-
-
-       
-
+          }
           this.setState({
             data:data
           })
-
+console.log(this.state.data);
         },
         // error handler
         (error) => {
@@ -73,6 +69,7 @@ class OrderbyDay extends Component {
       )
   }
   searchId = async e => {
+    e.preventDefault();
     var id = parseInt(this.refs.idOrder.value);
 
     for (var i = 0; i < this.state.order.length; i++) {
@@ -120,7 +117,7 @@ class OrderbyDay extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
         
         
-            <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'18px'}}>
+          <ul class="navbar-nav d-flex justify-content-around pt-4 pb-5" style={{fontSize:'20px'}}>
               <li className="nav-item mr-5" > <Link to='/dashboard'>Thống kê đơn hàng</Link></li>
                         <li className="nav-item  justify-content-around mr-5"  ><Link to='/dashboard/store'> Thống kê sản phẩm </Link></li>
                         <li className="nav-item  justify-content-around mr-5" > <Link to='/dashboard/addNew'>Thêm sản phẩm mới</Link></li>
@@ -139,7 +136,7 @@ class OrderbyDay extends Component {
               
       <div className="container" >
 
-        <h5>Xem chi tiết đơn hàng <input type='text' ref='idOrder' onChange={this.searchId} /></h5>
+        <h5>Xem chi tiết đơn hàng <input type='text' ref='idOrder' onBlur={this.searchId} /></h5>
        
          
             <div className="row">

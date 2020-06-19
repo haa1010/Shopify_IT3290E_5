@@ -14,7 +14,8 @@ class Search extends React.Component {
             address: '',
             day: '',
             totalcost: '',
-            idOrder: ''
+            idOrder: '',
+            isFound:null
 
         }
         this.searchId = this.searchId.bind(this);
@@ -27,17 +28,15 @@ class Search extends React.Component {
         window.location.href = '/';
     }
     searchId = async e => {
+    
         var id = parseInt(this.refs.idOrder.value);
         console.log(this.state.order)
-        for (var i = 0; i < this.state.order.length; i++) {
-            var order = this.state.order[i];
-            console.log(order == id)
-            if (order === id) {
+   
                 window.location.href = '/dashboard/search/' + id;
 
-            }
+            
 
-        }
+        
 
     }
     componentDidMount() {
@@ -75,6 +74,7 @@ class Search extends React.Component {
             .then(res => res.json())
             .then(
                 (result) => {
+                    if(result!==null){
                     this.setState({
                         isLoaded: true,
                         DetailOrder: result,
@@ -83,10 +83,14 @@ class Search extends React.Component {
                         address: result[0].address,
                         day:  moment(result[0].day).format('DD/MM/YYYY'),
                         totalcost: result[0].totalcost,
-                        idOrder: result[0].idorder
-
+                        idOrder: result[0].idorder,
+isFound:true
                     });
                     console.log(result)
+                }
+                else this.setState({
+                    isFound: false
+                })
                 },
                 // error handler
                 (error) => {
@@ -125,7 +129,7 @@ class Search extends React.Component {
                     <div className='container' style={{ minHeight: '100vh' }}>
 
 
-                        <nav class="navbar navbar-expand-lg">
+                        <nav class="navbar navbar-expand-lg pt-4 pb-5">
 
                             <button class="navbar-toggler" tydive="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                                 <span class="navbar-toggler-icon"></span>
@@ -133,7 +137,7 @@ class Search extends React.Component {
                             <div class="collapse navbar-collapse" id="navbarNav">
 
 
-                                <ul class="navbar-nav d-flex justify-content-around" style={{ fontSize: '18divx' }}>
+                                <ul class="navbar-nav d-flex justify-content-around" style={{ fontSize: '20px' }}>
                                     <li className="nav-item mr-5" > <Link to='/dashboard'>Thống kê đơn hàng</Link></li>
                                     <li className="nav-item  justify-content-around mr-5"  ><Link to='/dashboard/store'> Thống kê sản phẩm </Link></li>
                                     <li className="nav-item  justify-content-around mr-5" > <Link to='/dashboard/addNew'>Thêm sản phẩm mới</Link></li>
@@ -152,9 +156,9 @@ class Search extends React.Component {
 
                         <div className="container" >
 
-                            <h5>Xem chi tiết đơn hàng <input tydive='text' ref='idOrder' onChange={this.searchId} /></h5>
+                            <h5>Xem chi tiết đơn hàng <input tydive='text' ref='idOrder' onBlur={this.searchId} /></h5>
 
-                            <div className="mt-3" style={{width:'50vw'}}>
+                           {this.state.isFound&& <div className="mt-5" style={{width:'50vw'}}>
                                
                                 <div className='row pb-2 mb-2' style={{borderBottom:'0.5px solid #BDBDBD',width:'20vw'}}><div className='col-lg-5'> <span>Ngày:</span></div>< div className='col-lg-5 offset-1'>{this.state.day}</div></div>
                                 <div className='row pb-2 mb-2' style={{borderBottom:'0.5px solid #BDBDBD',width:'20vw'}}> <div className='col-lg-5' > <span>Người nhận</span>:</div> <div  className='col-lg-5 offset-1' >{this.state.receiver}</div></div>
@@ -163,30 +167,30 @@ class Search extends React.Component {
 
                                 <div className='row pb-2 mb-2' style={{borderBottom:'0.5px solid #BDBDBD',width:'20vw'}}>   <div  className='col-lg-5'> <b>Tổng tiền</b>: </div><div className='col-lg-5 offset-1'> {formatter.format(this.state.totalcost*1000)}</div>
                             </div>
-                            <h5 className='mt-3'>Chi tiết</h5>
-                            <div className='row mt-2'>
-                                <div className='col-lg-1'> STT</div>
-                                <div className=' col-lg-3'>
-                                    ID Sản phẩm
+                            <h5 className='mt-5'>Chi tiết</h5>
+                            <div className='row mt-2 '>
+                                <div className='col-lg-1'><b>STT</b> </div>
+                                <div className=' col-lg-1'>
+                                    <b>ID</b> 
                                     </div>
-                                <div className='col-lg-3'>
-                                    Tên sản phẩm
+                                <div className='col-lg-5'>
+                                  <b>  Tên sản phẩm</b>
                                     </div>
                                 <div className='col-lg-2'>
-                                    Màu
+                                   <b> Màu</b>
                                     </div>
                                 <div className=' col-lg-3'>
-                                    Số lượng
+                                   <b> Số lượng</b>
                                     </div>
                             </div>
 
                             {this.state.DetailOrder.map((items, index) => (
-                                <div className='row align-center' key={index}>
+                                <div className='row align-center mt-3' key={index}>
                                      <div className='col-lg-1'> {index+1}</div>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-1'>
                                         {items.idproduct}
                                     </div>
-                                    <div className='col-lg-3'>
+                                    <div className='col-lg-5'>
                                         {items.nameproduct}
                                     </div>
                                     <div className='col-lg-2'>
@@ -201,8 +205,15 @@ class Search extends React.Component {
                             ))}
 
                         </div>
-
+    }
+    {!this.state.isFound&& 
+    
+    <p> Không có đơn hàng phù hợp
+    </p>
+    
+    }
                     </div>
+                            
                 </div>
             </div>
 </div>

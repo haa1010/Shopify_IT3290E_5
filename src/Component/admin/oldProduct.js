@@ -196,7 +196,7 @@ class OldProduct extends Component {
           <div class="collapse navbar-collapse" id="navbarNav">
         
         
-            <ul class="navbar-nav d-flex justify-content-around" style={{fontSize:'18px'}}>
+          <ul class="navbar-nav d-flex justify-content-around pt-4 pb-5" style={{fontSize:'20px'}}>
               <li className="nav-item mr-5" > <Link to='/dashboard'>Thống kê đơn hàng</Link></li>
                         <li className="nav-item  justify-content-around mr-5"  ><Link to='/dashboard/store'> Thống kê sản phẩm </Link></li>
                         <li className="nav-item  justify-content-around mr-5" > <Link to='/dashboard/addNew'>Thêm sản phẩm mới</Link></li>
@@ -228,13 +228,13 @@ class OldProduct extends Component {
                     </div>
                     <div className="form-group">
 
-                        <label >số lượng</label>
+                        <label >Số lượng</label>
                         <input className="form-control" type="number" ref='qty' onChange={this.handleQty} name="quantity" min='1' style={this.state.errQty} />
                         <p style={{ color: 'red' }}>{this.state.ErrQty}</p>
                     </div>
                                                    
                                <div className='justify-content-center d-flex align-item-center'>               
-                    <button type="submit" class="btn btn-primary"  onClick={this.handleSubmit} style={{fontSize: '18px' }} >Xác nhân</button>
+                    <button type="submit" class="btn btn-primary"  onClick={this.handleSubmit} style={{fontSize: '18px' }} >Xác nhận </button>
                     </div>
                   
 
