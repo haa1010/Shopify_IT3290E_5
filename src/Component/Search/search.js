@@ -14,6 +14,7 @@ class search extends React.Component {
         super(props);
         this.state = {
             product: [],
+            url:[]
 
 
         };
@@ -30,17 +31,26 @@ class search extends React.Component {
                 (result) => {
                    
                     console.log(this.state.product);
-                    var Product=[]
+                    var Product=[];
+                    var index=[];
                     for(var i=0;i<result.detail.length;i++){
                        if(result.detail[i].nameproduct.toLowerCase().match(match.params.search.toLowerCase())!==null)
-Product.push(result.detail[i]);
+{Product.push(result.detail[i]);}
                     }
+                    for(var j=0;j<Product.length;j++){
+                    for(var i=0;i<result.url.length;i++){
+                        if(result.url[i].idproduct==Product[j].idproduct)
+ {index.push(result.url[i]);
+}
+                     }}
                     this.setState({
                         isLoaded: true,
                         product: Product,
+                        url:index
 
 
                     });
+                    console.log(this.state.product);
                 },
                 // error handler
                 (error) => {
@@ -87,7 +97,7 @@ Product.push(result.detail[i]);
 
 
                                         {this.state.product.map((index, key) => (
-                                            <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={index.urlimage} key={key} isNew={false} />
+                                            <ProductBox id={index.idproduct} name={index.nameproduct} price={index.price * 1000} url={this.state.url[key].urlimage} key={key} isNew={false} />
                                         ))}
 {this.state.product.length===0&&<h4>Không tìm được sản phẩm phù hợp</h4>}
 

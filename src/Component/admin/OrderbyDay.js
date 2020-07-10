@@ -11,6 +11,7 @@ const cookies = new Cookies();
 
 class OrderbyDay extends Component {
   constructor(props) {
+    
     super(props)
     this.state = {
       order: [],
@@ -31,6 +32,7 @@ class OrderbyDay extends Component {
 }
 
   componentDidMount() {
+   
     fetch('http://localhost:8080/admin')
       .then(res => res.json())
       .then(
@@ -84,6 +86,7 @@ console.log(this.state.data);
 
   }
   render() {
+   
     const formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'VND',
@@ -136,7 +139,7 @@ console.log(this.state.data);
               
       <div className="container" >
 
-        <h5>Xem chi tiết đơn hàng <input type='text' ref='idOrder' onBlur={this.searchId} /></h5>
+        <h4 >Xem chi tiết đơn hàng <input type='text' ref='idOrder' onBlur={this.searchId} /></h4>
        
          
             <div className="row">

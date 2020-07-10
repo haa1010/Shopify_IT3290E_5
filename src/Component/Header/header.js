@@ -132,7 +132,7 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
                                     <div className="header-search"  style={{margin:'auto 0'}}>
                                        <form className='row'> 
 
-                                            <select className="input-select"  style={{margin:'auto 0'}}>
+                                            <select className="input-select"  style={{margin:'auto 0',fontSize:'15px'}}>
                                                 <option value="0">Danh mục</option>
                                                 <option value="1">Điện thoại</option>
 
@@ -155,7 +155,7 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
                                             <Dropdown.Toggle id="dropdown-custom-components" style={{background:"#15161D",border:"none"}}>
                                            
 								<i className="fa fa-shopping-cart mr-2 pr-3" style={{fontSize:'25px'}}></i>
-       {this.state.Cart.length!==0&& <div className="qty bold" style={{position:'absolute', top:'-2px', right:'45%', color:'#D10024',fontWeight:'bold'}}>{this.state.Cart.length}</div>
+       {this.state.Cart.length!==0&& <div className="qty bold" style={{position:'absolute', top:'-2px', right:'43%', color:'#D10024',fontWeight:'bold'}}>{this.state.Cart.length}</div>
     }
                                             </Dropdown.Toggle>
 
@@ -169,9 +169,9 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
                                                                 <img src={index.url} alt="" width='30px' height='30px' />
                                                             </div>
                                                             <div className="product-body">
-                                                                <h3 className="product-name"><Link to={"/product/"+index.idproduct}>{index.name}</Link></h3>
+                                                                <h3 className="product-name" style={{fontSize:'13px'}}><Link to={"/product/"+index.idproduct}>{index.name}</Link></h3>
                                                                 <h4 className="product-price"><span
-                                                                    className="qty">{index.quantity}x</span>{formatter.format(index.price*1000)}</h4>
+                                                                    className="qty" style={{fontSize:'13px'}}>{index.quantity}x</span>{formatter.format(index.price*1000)}</h4>
                                                             </div>
                                                             <button className="delete" onClick={(event)=>(this.delette(event,key))}><i className="fa fa-close"></i></button>
                                                         </div>
@@ -179,14 +179,14 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
                                                         })} 
                                                 <Dropdown.Item><div className="cart-summary">
                                                    
-                                                    <h5>Tổng: {formatter.format(this.state.total)}</h5>
+                                                    <h5  style={{fontSize:'15px'}}>Tổng: {formatter.format(this.state.total)}</h5>
                                                 </div>
 
                                                 </Dropdown.Item>
                                                 <Dropdown.Item > <div className="cart-btns">
 
 
-                                                    <button className="btn btn-danger" onClick={(event)=>(this.thanhtoan(event))}>Thanh toán  <i className="fa fa-arrow-circle-right"></i></button>
+                                                    <button className="btn btn-danger"  style={{fontSize:'15px'}} onClick={(event)=>(this.thanhtoan(event))}>Thanh toán  <i className="fa fa-arrow-circle-right"></i></button>
 
 
                                                 </div></Dropdown.Item>
@@ -204,12 +204,6 @@ if(this.refs.txt.value.length!==0||this.refs.txt.value!==undefined||this.refs.tx
 
 
 
-                                <div className="menu-toggle">
-                                    <Link to="/">
-                                        <i className="fa fa-bars"></i>
-                                        <span>Menu</span>
-                                    </Link>
-                                </div>
 
                             </div>
                         </div>
