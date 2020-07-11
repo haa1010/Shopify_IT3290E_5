@@ -64,19 +64,18 @@ class Product extends React.Component {
     handleColor=(event)=> {
 let value=null;
 value=event.target.value;
-var index=-1;
-        console.log(value)
-      for(var i=0;i<this.state.Qty.length;i++){
+
+        
+        var i=0;
+      for( i=0;i<this.state.Qty.length;i++){
           if(this.state.Qty[i].color.localeCompare(value)==0){
-            index=i;
+           
             break;
           }
       } 
-      
-      
-         if (this.state.Qty[index].quantity == 0) {;this.setState({
-            errFormColor: 'Het hang',
-
+         if (this.state.Qty[i].quantity == 0) {this.setState({
+            errFormColor: 'Hết hàng',
+            color: value,
             qty: 0
 
         })}
@@ -84,11 +83,10 @@ var index=-1;
 
             this.setState({
                 color: value,
-                qty: this.state.Qty[index].quantity,
+                qty: this.state.Qty[i].quantity,
                 errFormColor:''
             })
-            console.log(this.state.color);
-            console.log(this.state.qty)
+           
 
     }
     handleOrder = async e => {
@@ -214,7 +212,7 @@ console.log(json_str)
                         });
 
 if(this.state.qty===0) this.setState({
-    errFormColor:'Hết hàng'
+    errFormColor:'Hết hàngs'
 })
 
                     },
@@ -266,7 +264,7 @@ if(this.state.qty===0) this.setState({
 
                             <div className="row">
 
-                                <div className="col-md-2 col-md-push-2">
+                                <div className="col-md-2 col-lg-2 col-md-push-2">
                                     <div id="product-main-img">
                                  {this.state.url.map((index, key) => (
                                             <div key={key} className="product-preview">
@@ -277,7 +275,7 @@ if(this.state.qty===0) this.setState({
                                     </div>
                                 </div>
 
-                                <div className="col-md-4  col-md-pull-5">
+                                <div className="col-md-5 col-lg-5 col-md-pull-5">
                                     <div id="product-imgs">
 
                                         <div className="product-preview">
@@ -287,20 +285,7 @@ if(this.state.qty===0) this.setState({
 
                                     </div>
                                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-                                <div className="col-md-6">
+                                <div className="col-md-5 col-lg-5">
                                     <div className="product-details">
                                         <h2 className="product-name">{this.state.product.nameproduct}</h2>
                                         <div>
@@ -321,16 +306,16 @@ if(this.state.qty===0) this.setState({
                                         <form onSubmit={this.handleOrder} className='d-flex flex-column'>
                                             <div className="product-options  ">
 
-                                                <label>
+                                                
                                                     Màu
-									<select className="input-select ml-4" id="color " value={this.state.color} onChange={this.handleColor}>
+									<select className="input-select ml-5" id="color " style={{width:'100px'}} value={this.state.color} onChange={this.handleColor}>
                                                         {this.state.Qty.map((index, key) => (
                                                             <option  key={key} value={index.color} >{index.color}</option>
                                                         ))}
 
                                                     </select>
-                                                </label>
-                                                <span style={{ color: 'red', marginLeft: '10px' }}>{this.state.errFormColor}</span>
+                                                
+                                                <span style={{ color: 'red',fontSize:'22px',fontWeight:'bold', marginLeft: '10px' }}>{this.state.errFormColor}</span>
                                             </div>
 
                                             <div className= "add-to-cart ">
@@ -341,11 +326,11 @@ if(this.state.qty===0) this.setState({
                                                         <input type="number" min='1' ref='soluong' max={this.state.qty} pattern='[0-9]' onInput={this.handleQty} />
 
                                                     </div>
-                                                    <span style={{ color: 'red', marginLeft: '10px' }} id='noti'>{this.state.errFormQty}</span>
+                                                    <span style={{ color: 'red', marginLeft: '5px' }} id='noti'>{this.state.errFormQty}</span>
                                                 </div>
                                                <br/>
                                                <br/>
-                                                <button className= {this.state.qty===0?"cant add-to-cart-btn":"add-to-cart-btn"} disabled={this.state.qty === 0 ? true:false}><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
+                                                <button className= {this.state.errFormQty!==''||this.state.qty==0?"cant add-to-cart-btn":"add-to-cart-btn"} disabled={this.state.errFormQty!=='' ? true:false}><i className="fa fa-shopping-cart"></i> Thêm vào giỏ</button>
 
 
 
@@ -383,8 +368,8 @@ if(this.state.qty===0) this.setState({
                                                             <table className="table table-bordered" style={{fontSize:'15px'}}> 
                                                                 <tbody>
                                                                     <tr className="techSpecRow"><th colspan="2">Chi tiết sản phẩm</th></tr>
-                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Hãng: </td><td className="techSpecTD2">{this.state.product.brand}</td></tr>
-                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Bộ nhớ:</td><td className="techSpecTD2">{this.state.specification.memory}</td></tr>
+                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Hãng </td><td className="techSpecTD2">{this.state.product.brand}</td></tr>
+                                                                    <tr className="techSpecRow"><td className="techSpecTD1">Bộ nhớ</td><td className="techSpecTD2">{this.state.specification.memory}</td></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">Camera trước</td><td className="techSpecTD2"> {this.state.specification.frontcamera}</td></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">Camera sau</td><td className="techSpecTD2"> {this.state.specification.behindcamera}</td></tr>
                                                                     <tr className="techSpecRow"><td className="techSpecTD1">CPU</td><td className="techSpecTD2">{this.state.specification.cpu}</td></tr>

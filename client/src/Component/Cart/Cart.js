@@ -2,7 +2,7 @@ import React from 'react'
 import Header from '../Header/header'
 import Footer from '../footer/footer'
 import axios from "axios"
-
+import swal from 'sweetalert';
 import Cookies from 'universal-cookie';
 const cookies = new Cookies();
 var json_str = cookies.get('T');
@@ -37,12 +37,12 @@ class Cart extends React.Component {
 	}
 	checkname() {
 
-
+console.log(this.refs.ten.value.length)
 		if (this.refs.ten.value.length === 0 || this.refs.ten.value === undefined) {
-			this.setState({ styleName: { boder: '1px solid red' }, erroName: "bạn chưa nhập tên", trueName: 0, ten: '' })
+			this.setState({ styleName: { border: '1px solid red' }, erroName: "Bạn chưa nhập tên", trueName: 0, ten: '' })
 		}
 		else {
-			this.setState({ styleName: { boder: '0.5px solid #E4E7ED' }, erroName: "", trueName: 1, ten: this.refs.ten.value })
+			this.setState({ styleName: { border: '0.5px solid #E4E7ED' }, erroName: "", trueName: 1, ten: this.refs.ten.value })
 		}
 
 
@@ -51,51 +51,78 @@ class Cart extends React.Component {
 	checkdiachi() {
 
 		if (this.refs.diachi.value.length === 0 || this.refs.diachi.value === undefined) {
-			this.setState({ styleDiachi: { boder: '1px solid red' }, errdiachi: "bạn chưa nhập địa chỉ", trueDiachi: 0, diachi: '' })
+			this.setState({ styleDiachi: { border: '1px solid red' }, errdiachi: "Bạn chưa nhập địa chỉ", trueDiachi: 0, diachi: '' })
 		}
 		else {
-			this.setState({ styleName: { boder: '0.5px solid #E4E7ED' }, errdiachi: "", trueDiachi: 1, diachi: this.refs.diachi.value })
+			this.setState({ styleDiachi: { border: '0.5px solid #E4E7ED' }, errdiachi: "", trueDiachi: 1, diachi: this.refs.diachi.value })
 		}
 
 	}
 	checkOrder = async e => {
 		e.preventDefault()
-
-		if (this.state.trueDiachi === 1 && this.state.trueName === 1 && this.state.phoneState === 1) {
+		swal({
+			title: "Bạn có chắc chắn đặt hàng?",
+			text: "",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		  })
+		  .then((willDelete) => {
+			if (willDelete) {
+				if (this.state.trueDiachi === 1 && this.state.trueName === 1 && this.state.phoneState === 1) {
 		
-			var order = {
-				receiver: this.state.ten,
-				phone: this.state.phone,
-				address: this.state.diachi,
-				cost: this.state.total,
-				items: this.state.Cart
-			}
-			// console.log(order)
-			const options = {
-				method: 'post',
-				url: 'http://localhost:8080/newOrder',
-				data: order
-			}
-
-			axios(options)
-				.then(function (response) {
-					console.log(order)
-					alert("Đặt hàng thành công. Nhân viên Shopify sẽ liên lạc sớm cho quý khách để xác nhận đơn hàng.")
-					setTimeout(  window.location.href = '/',2000)
-				})
-				.catch(function (error) {
-					alert("Đã xảy ra lỗi, vui lòng đặt lại")
-				});
-			cookies.remove('T');
-
-
-
-		}
-		else {
-			this.setState({
-				errForm: "Vui lòng nhập từng dữ liệu"
-			})
-		}
+					var order = {
+						receiver: this.state.ten,
+						phone: this.state.phone,
+						address: this.state.diachi,
+						cost: this.state.total,
+						items: this.state.Cart
+					}
+					// console.log(order)
+					const options = {
+						method: 'post',
+						url: 'http://localhost:8080/newOrder',
+						data: order
+					}
+		
+					axios(options)
+						.then(function (response) {
+							console.log(order)
+							swal({
+								title: "Đặt hàng thành công",
+								text: "Nhân viên Shopify sẽ sớm liên lạc cho quý khách để xác nhận đơn hàng ",
+								icon: "success",
+								dangerMode: true,
+							  }).then((value) => {
+								 window.location.href = '/';
+							  });
+							
+						})
+						.catch(function (error) {
+							swal({
+								title: "Đặt hàng không thành công",
+								text: "Quý khách vui lòng thử lại",
+								icon: "warning",
+								dangerMode: true,
+							  })
+						});
+					cookies.remove('T');
+		
+		
+		
+				}
+				else {
+					swal({
+						title: "Đặt hàng không thành công",
+						text: "Quý khách vui lòng điền đầy đủ thông tin ",
+						icon: "warning",
+						dangerMode: true,
+					  })
+					
+				}
+			} 
+		  });
+		
 
 
 	}
@@ -106,7 +133,7 @@ class Cart extends React.Component {
 			this.setState({
 				style: { boder: '1px solid red' },
 				phoneState: 0,
-				errPhone: "nhập số điện thoại"
+				errPhone: "Vui lòng nhập số điện thoại"
 			})
 
 
@@ -146,7 +173,7 @@ class Cart extends React.Component {
 
 				total += parseInt(json_str[i].price) * parseInt(json_str[i].quantity);
 			}
-		} else if (json_str === undefined || json_str.length === 0) { this.setState({ StateCart: 'chưa có sản phầm trong giỏ hàng' }) }
+		} else if (json_str === undefined || json_str.length === 0) { this.setState({ StateCart: 'Chưa có sản phầm trong giỏ hàng' }) }
 
 
 		this.setState({
@@ -166,6 +193,7 @@ class Cart extends React.Component {
 			<div>
 
 				<Header />
+				
 				<div id="breadcrumb" className="section">
 
 					<div className="container">
@@ -199,16 +227,16 @@ class Cart extends React.Component {
 												<h3 className="title" style={{fontSize:'23px'}}>Thông tin khách hàng</h3>
 											</div>
 											<div className="form-group">
-												<input className="input" type="text" name="name" style={this.state.styleName} ref="ten" placeholder=" Tên" onChange={this.checkname} />
-												<p id="wrongname" style={{ display: 'none', color: 'red' }}>{this.state.erroName}</p>
+												<input className="input" type="text" name="name" style={this.state.styleName} ref="ten" placeholder=" Tên" onBlur={this.checkname} />
+												<p id="wrongname" style={{  color: 'red' }}>{this.state.erroName}</p>
 											</div>
 											<div className="form-group">
-												<input className="input" type="text" style={this.state.styleDiachi} name="address" ref="diachi" placeholder="Địa chỉ" onChange={this.checkdiachi} />
-												<p id="wrongdiachi" style={{ display: 'none', color: 'red' }}>{this.state.errdiachi}</p>
+												<input className="input" type="text" style={this.state.styleDiachi} name="address" ref="diachi" placeholder="Địa chỉ" onBlur={this.checkdiachi} />
+												<p id="wrongdiachi" style={{ color: 'red' }}>{this.state.errdiachi}</p>
 											</div>
 											<div className="form-group">
-												<input className="input" style={this.state.style} type="tel" ref='phonenumber' name="tel" id='phonenumber' placeholder="Số điện thoại" onChange={this.checkphone} />
-												<p id="wrongPhone" style={{ display: 'none', color: 'red' }}>{this.state.errPhone}</p>
+												<input className="input" style={this.state.style} type="tel" ref='phonenumber' name="tel" id='phonenumber' placeholder="Số điện thoại" onBlur={this.checkphone} />
+												<p id="wrongPhone" style={{color: 'red' }}>{this.state.errPhone}</p>
 											</div>
 
 										</div>

@@ -85,7 +85,21 @@ class Home extends React.Component {
               margin={10}
               nav
               autoplay={true}
-             
+              responsive={{
+                0: {
+                    items: 1,
+                },
+                450: {
+                    items: 1,
+                },
+                600: {
+                    items: 2,
+                },
+                1000: {
+                    items: 3,
+                }
+            }
+            }
             >
                
                {this.state.product.map((index, key) => (
